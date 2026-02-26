@@ -14,7 +14,6 @@ Next up, once you say "go", it launches a *subagent-driven-development* process,
 
 There's a bunch more to it, but that's the core of the system. And because the skills trigger automatically, you don't need to do anything special. Your coding agent just has Superpowers.
 
-
 ## Sponsorship
 
 If Superpowers has helped you do stuff that makes money and you are so inclined, I'd greatly appreciate it if you'd consider [sponsoring my opensource work](https://github.com/sponsors/obra).
@@ -23,11 +22,9 @@ Thanks!
 
 - Jesse
 
-
 ## Installation
 
 **Note:** Installation differs by platform. Claude Code or Cursor have built-in plugin marketplaces. Codex and OpenCode require manual setup.
-
 
 ### Claude Code (via Plugin Marketplace)
 
@@ -116,7 +113,7 @@ Start a new session in your chosen platform and ask for something that should tr
 - **subagent-driven-development** - Fast iteration with two-stage review (spec compliance, then code quality)
 
 **Meta**
-- **writing-skills** - Create new skills following best practices (includes testing methodology)
+- **skill-creator** - Create new skills following best practices (includes testing methodology)
 - **using-superpowers** - Introduction to the skills system
 
 ## Philosophy
@@ -134,10 +131,10 @@ Skills live directly in this repository. To contribute:
 
 1. Fork the repository
 2. Create a branch for your skill
-3. Follow the `writing-skills` skill for creating and testing new skills
+3. Follow the `skill-creator` skill for creating and testing new skills
 4. Submit a PR
 
-See `skills/writing-skills/SKILL.md` for the complete guide.
+See `skills/skill-creator/SKILL.md` for the complete guide.
 
 ## Updating
 
@@ -155,3 +152,5 @@ MIT License - see LICENSE file for details
 
 - **Issues**: https://github.com/obra/superpowers/issues
 - **Marketplace**: https://github.com/obra/superpowers-marketplace
+
+this project is a fork of https://github.com/obra/superpowers.git

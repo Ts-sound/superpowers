@@ -32,24 +32,23 @@ You MUST create a task for each of these items and complete them in order:
 
 ## Process Flow
 
-```dot
-digraph brainstorming {
-    "Explore project context" [shape=box];
-    "Ask clarifying questions" [shape=box];
-    "Propose 2-3 approaches" [shape=box];
-    "Present design sections" [shape=box];
-    "User approves design?" [shape=diamond];
-    "Write design doc" [shape=box];
-    "Invoke writing-plans skill" [shape=doublecircle];
+```mermaid
+graph TD
+    A["Explore project context"] --> B["Ask clarifying questions"];
+    B --> C["Propose 2-3 approaches"];
+    C --> D["Present design sections"];
+    D --> E{"User approves design?"};
+    E -->|no, revise| D;
+    E -->|yes| F["Write design doc"];
+    F --> G["Invoke writing-plans skill"];
 
-    "Explore project context" -> "Ask clarifying questions";
-    "Ask clarifying questions" -> "Propose 2-3 approaches";
-    "Propose 2-3 approaches" -> "Present design sections";
-    "Present design sections" -> "User approves design?";
-    "User approves design?" -> "Present design sections" [label="no, revise"];
-    "User approves design?" -> "Write design doc" [label="yes"];
-    "Write design doc" -> "Invoke writing-plans skill";
-}
+    classDef endnode fill:#f9f;
+    classDef decision fill:#ddf;
+    classDef process fill:#e6f2ff;
+
+    class G endnode;
+    class E decision;
+    class A,B,C,D,F process;
 ```
 
 **The terminal state is invoking writing-plans.** Do NOT invoke frontend-design, mcp-builder, or any other implementation skill. The ONLY skill you invoke after brainstorming is writing-plans.

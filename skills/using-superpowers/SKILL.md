@@ -31,19 +31,16 @@ graph TD
     C -->|yes| D;
     E --> D;
     D -->|yes, even 1%| F["Invoke Skill tool"];
-    D -->|definitely not| L["Respond (including clarifications)"];
-    F --> G["Announce: 'Using [skill] to [purpose]'"];
+    D -->|definitely not| L["Respond <br> (including clarifications)"];
+    F --> G["Announce:  <br> 'Using [skill] to [purpose]'"];
     G --> H{"Has checklist?"};
     H -->|yes| I["Create TodoWrite todo per item "];
     H -->|no| J["Follow skill exactly"];
     I --> J;
 
-    %% 样式定义，模拟doublecircle效果
     classDef endnode fill:#f9f;
-    %% 菱形（判断节点）默认样式
     classDef decision fill:#ddf;
-    %% 矩形（操作节点）默认样式
-    classDef process fill:#fff;
+    classDef process fill:#e6f2ff;
     
     %% 给节点分配样式
     class A,B,L endnode;

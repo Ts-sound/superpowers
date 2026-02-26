@@ -46,26 +46,36 @@ Implement fresh from tests. Period.
 
 ## Red-Green-Refactor
 
-```dot
-digraph tdd_cycle {
-    rankdir=LR;
-    red [label="RED\nWrite failing test", shape=box, style=filled, fillcolor="#ffcccc"];
-    verify_red [label="Verify fails\ncorrectly", shape=diamond];
-    green [label="GREEN\nMinimal code", shape=box, style=filled, fillcolor="#ccffcc"];
-    verify_green [label="Verify passes\nAll green", shape=diamond];
-    refactor [label="REFACTOR\nClean up", shape=box, style=filled, fillcolor="#ccccff"];
-    next [label="Next", shape=ellipse];
+```mermaid
+graph LR
+    A["RED<br/>Write failing test"];
+    B{{"Verify fails<br/>correctly"}};
+    C["GREEN<br/>Minimal code"];
+    D{{"Verify passes<br/>All green"}};
+    E["REFACTOR<br/>Clean up"];
+    F["Next"];
 
-    red -> verify_red;
-    verify_red -> green [label="yes"];
-    verify_red -> red [label="wrong\nfailure"];
-    green -> verify_green;
-    verify_green -> refactor [label="yes"];
-    verify_green -> green [label="no"];
-    refactor -> verify_green [label="stay\ngreen"];
-    verify_green -> next;
-    next -> red;
-}
+    A --> B;
+    B -->|yes| C;
+    B -->|wrong<br/>failure| A;
+    C --> D;
+    D -->|yes| E;
+    D -->|no| C;
+    E -->|stay<br/>green| D;
+    D --> F;
+    F --> A;
+
+    classDef redNode fill:#ffcccc,stroke:#333,stroke-width:1px;
+    classDef greenNode fill:#ccffcc,stroke:#333,stroke-width:1px;
+    classDef refactorNode fill:#ccccff,stroke:#333,stroke-width:1px;
+    classDef decision fill:#ddf,stroke:#333,stroke-width:1px;
+    classDef nextNode fill:#fff,stroke:#333,stroke-width:1px;
+
+    class A redNode;
+    class B,D decision;
+    class C greenNode;
+    class E refactorNode;
+    class F nextNode;
 ```
 
 ### RED - Write Failing Test

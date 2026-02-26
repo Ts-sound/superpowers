@@ -13,22 +13,20 @@ When you have multiple unrelated failures (different test files, different subsy
 
 ## When to Use
 
-```dot
-digraph when_to_use {
-    "Multiple failures?" [shape=diamond];
-    "Are they independent?" [shape=diamond];
-    "Single agent investigates all" [shape=box];
-    "One agent per problem domain" [shape=box];
-    "Can they work in parallel?" [shape=diamond];
-    "Sequential agents" [shape=box];
-    "Parallel dispatch" [shape=box];
+```mermaid
+graph TD
+    A{{"Multiple failures?"}} -->|yes| B{{"Are they independent?"}};
+    B -->|no - related| C["Single agent investigates all"];
+    B -->|yes| D{{"Can they work in parallel?"}};
+    D -->|yes| E["Parallel dispatch"];
+    D -->|no - shared state| F["Sequential agents"];
 
-    "Multiple failures?" -> "Are they independent?" [label="yes"];
-    "Are they independent?" -> "Single agent investigates all" [label="no - related"];
-    "Are they independent?" -> "Can they work in parallel?" [label="yes"];
-    "Can they work in parallel?" -> "Parallel dispatch" [label="yes"];
-    "Can they work in parallel?" -> "Sequential agents" [label="no - shared state"];
-}
+    classDef endnode fill:#f9f;
+    classDef decision fill:#ddf;
+    classDef process fill:#e6f2ff;
+
+    class A,B,D decision;
+    class C,E,F process;
 ```
 
 **Use when:**

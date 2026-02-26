@@ -1,0 +1,61 @@
+{
+  "skill_name": "mermaid-diagram",
+  "evals": [
+    {
+      "id": 1,
+      "name": "flowchart-login",
+      "prompt": "Create a flowchart for user login, including entering username/password, verification, and success/failure handling",
+      "expected_output": "A complete mermaid flowchart code with start, input, decision, success/failure branches, and end nodes",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "sequence-api-call",
+      "prompt": "Create a sequence diagram showing API calls, demonstrating interactions between Client, Gateway, and Service",
+      "expected_output": "A mermaid sequence diagram code with three participants and complete request-response flow",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "gantt-project-plan",
+      "prompt": "Create a Gantt chart for a project plan with four phases: Requirements Analysis (7 days), Design (5 days), Development (14 days), Testing (7 days)",
+      "expected_output": "A mermaid gantt chart code with four sections and corresponding timeline安排",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "class-uml",
+      "prompt": "Create a class diagram with User, Order, and Product classes, showing their relationships",
+      "expected_output": "A mermaid class diagram code with attributes, methods, and relationships for three classes",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "state-order",
+      "prompt": "Create an order state diagram with states: Pending Payment, Paid, Shipping, Completed, Cancelled",
+      "expected_output": "A mermaid state diagram code showing the complete order state transition flow",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "pie-stats",
+      "prompt": "Create a pie chart showing team time allocation: Development 50%, Meetings 20%, Documentation 15%, Other 15%",
+      "expected_output": "A mermaid pie chart code with four categories and corresponding values",
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "timeline-roadmap",
+      "prompt": "Create a product roadmap timeline: 2024 Q1 Requirements, Q2 Development, Q3 Testing, Q4 Launch",
+      "expected_output": "A mermaid timeline code with four quarterly milestones",
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "journey-shopping",
+      "prompt": "Create a user shopping journey with three phases: Browse Products, Place Order, Receive and Review",
+      "expected_output": "A mermaid user journey code with three phases and corresponding task scores",
+      "files": []
+    }
+  ]
+}

@@ -23,34 +23,32 @@ This is not negotiable. This is not optional. You cannot rationalize your way ou
 
 **Invoke relevant or requested skills BEFORE any response or action.** Even a 1% chance a skill might apply means that you should invoke the skill to check. If an invoked skill turns out to be wrong for the situation, you don't need to use it.
 
-```dot
-digraph skill_flow {
-    "User message received" [shape=doublecircle];
-    "About to EnterPlanMode?" [shape=doublecircle];
-    "Already brainstormed?" [shape=diamond];
-    "Invoke brainstorming skill" [shape=box];
-    "Might any skill apply?" [shape=diamond];
-    "Invoke Skill tool" [shape=box];
-    "Announce: 'Using [skill] to [purpose]'" [shape=box];
-    "Has checklist?" [shape=diamond];
-    "Create TodoWrite todo per item" [shape=box];
-    "Follow skill exactly" [shape=box];
-    "Respond (including clarifications)" [shape=doublecircle];
+```mermaid
+graph TD
+    A["User message received"] --> D{"Might any skill apply?"};
+    B["About to EnterPlanMode?"] --> C{"Already brainstormed?"};
+    C -->|no| E["Invoke brainstorming skill"];
+    C -->|yes| D;
+    E --> D;
+    D -->|yes, even 1%| F["Invoke Skill tool"];
+    D -->|definitely not| L["Respond (including clarifications)"];
+    F --> G["Announce: 'Using [skill] to [purpose]'"];
+    G --> H{"Has checklist?"};
+    H -->|yes| I["Create TodoWrite todo per item "];
+    H -->|no| J["Follow skill exactly"];
+    I --> J;
 
-    "About to EnterPlanMode?" -> "Already brainstormed?";
-    "Already brainstormed?" -> "Invoke brainstorming skill" [label="no"];
-    "Already brainstormed?" -> "Might any skill apply?" [label="yes"];
-    "Invoke brainstorming skill" -> "Might any skill apply?";
-
-    "User message received" -> "Might any skill apply?";
-    "Might any skill apply?" -> "Invoke Skill tool" [label="yes, even 1%"];
-    "Might any skill apply?" -> "Respond (including clarifications)" [label="definitely not"];
-    "Invoke Skill tool" -> "Announce: 'Using [skill] to [purpose]'";
-    "Announce: 'Using [skill] to [purpose]'" -> "Has checklist?";
-    "Has checklist?" -> "Create TodoWrite todo per item" [label="yes"];
-    "Has checklist?" -> "Follow skill exactly" [label="no"];
-    "Create TodoWrite todo per item" -> "Follow skill exactly";
-}
+    %% 样式定义，模拟doublecircle效果
+    classDef endnode fill:#f9f;
+    %% 菱形（判断节点）默认样式
+    classDef decision fill:#ddf;
+    %% 矩形（操作节点）默认样式
+    classDef process fill:#fff;
+    
+    %% 给节点分配样式
+    class A,B,L endnode;
+    class C,D,H decision;
+    class E,F,G,I,J process;
 ```
 
 ## Red Flags

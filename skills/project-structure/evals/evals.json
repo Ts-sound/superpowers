@@ -1,0 +1,26 @@
+{
+  "skill_name": "project-structure",
+  "evals": [
+    {
+      "id": 1,
+      "name": "create-python-project",
+      "prompt": "Create a Python project structure with standard directories and configuration files, including pytest setup and GitHub Actions CI",
+      "expected_output": "A complete project structure with src/, tests/, docs/, scripts/ directories, requirements.txt, setup.py, pyproject.toml, pytest.ini, and .github/workflows/ci.yml",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "create-typescript-project",
+      "prompt": "Create a TypeScript project structure with standard directories and configuration files",
+      "expected_output": "A complete project structure with src/, tests/, docs/, scripts/ directories, package.json, tsconfig.json, and .github/workflows/ci.yml",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "check-project-structure",
+      "prompt": "Check if the current project structure is complete and suggest any missing directories or files",
+      "expected_output": "An analysis of the current project structure with recommendations for missing standard directories and files",
+      "files": []
+    }
+  ]
+}

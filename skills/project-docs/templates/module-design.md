@@ -52,9 +52,9 @@ class ModuleClass:
 | auth | Required | Authentication |
 | config | Required | Configuration |
 
-## Data Flow
+## Key Sequences
 
-<!-- How data moves through this module -->
+<!-- Key functional interaction flows within this module -->
 
 ```mermaid
 sequenceDiagram
@@ -68,13 +68,19 @@ sequenceDiagram
     M-->>C: Result
 ```
 
-### Input Data
-- Data format
-- Validation rules
+### Sequence 1: [Sequence Name]
 
-### Output Data
-- Data format
-- Error handling
+- **Trigger:** What initiates this flow
+- **Participants:** List of participants in this sequence
+- **Steps:** Brief description of the interaction
+- **Result:** Expected outcome
+
+### Sequence 2: [Sequence Name]
+
+- **Trigger:** What initiates this flow
+- **Participants:** List of participants in this sequence
+- **Steps:** Brief description of the interaction
+- **Result:** Expected outcome
 
 ## State Machine
 

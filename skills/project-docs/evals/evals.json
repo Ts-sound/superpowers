@@ -1,0 +1,26 @@
+{
+  "skill_name": "project-docs",
+  "evals": [
+    {
+      "id": 1,
+      "name": "create-overview-design",
+      "prompt": "Create an overall system design document for the project with architecture diagrams",
+      "expected_output": "A complete docs/design/README.md file with system overview, architecture flowchart, modules table, technical decisions, and data model class diagram",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "create-module-design",
+      "prompt": "Create a detailed design document for the auth module with appropriate mermaid diagrams",
+      "expected_output": "A complete docs/design/auth/README.md file with module overview, component diagram, sequence diagram for authentication flow, state diagram for auth states, and public API documentation",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "check-docs-sync",
+      "prompt": "Check if design documents need updates after adding a new payment feature to the project",
+      "expected_output": "An analysis report identifying which design documents need updates (e.g., docs/design/README.md for new module entry, docs/design/payment/README.md for new module design)",
+      "files": []
+    }
+  ]
+}

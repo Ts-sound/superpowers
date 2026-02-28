@@ -68,15 +68,19 @@ implementation
 
 ### With mermaid-diagram
 
-**When to invoke:**
-- Architecture overview → flowchart
-- Module interaction → sequence diagram
-- State transitions → state diagram
-- Data models → class diagram
-- Project timeline → gantt/timeline
-- User flows → journey diagram
+**Always invoke mermaid-diagram** before writing diagram code.
 
-**Always invoke mermaid-diagram** when the design would benefit from visual representation.
+**When to invoke:**
+
+| Design Section | Diagram Type | Purpose |
+|----------------|--------------|---------|
+| Architecture overview | `flowchart` (graph TD/LR) | System components and relationships |
+| Key Sequences | `sequenceDiagram` | Module interactions, API flows |
+| State Machine | `stateDiagram-v2` | State transitions, lifecycle |
+| Data Model | `classDiagram` | Class structures, relationships |
+| Timeline | `timeline` or `gantt` | Project milestones, release schedule |
+| User Flows | `journey` | User experience, service design |
+| Proportions | `pie` | Distribution, breakdown |
 
 ## Design Document Templates
 
@@ -123,8 +127,11 @@ Functions/classes exposed by this module.
 ### Dependencies
 Other modules this module depends on.
 
-## Data Flow
-How data moves through this module.
+## Key Sequences
+Key functional interaction flows. Use sequence diagrams to illustrate:
+- Main use cases
+- Error handling flows
+- Cross-module interactions
 
 ## State Machine
 (if applicable) State transitions and conditions.
@@ -143,10 +150,13 @@ How data moves through this module.
 
 ```bash
 # Create docs/design/<module>/README.md
-# Include relevant mermaid diagrams:
-# - Sequence for interactions
-# - State for stateful modules
-# - Class for data models
+# 
+# 1. Invoke mermaid-diagram skill for each diagram type needed
+# 2. Include diagrams based on module characteristics:
+#    - All modules: Component diagram (flowchart)
+#    - Interactive modules: Sequence diagrams (Key Sequences section)
+#    - Stateful modules: State diagram (State Machine section)
+#    - Data-heavy modules: Class diagram (Data Model section)
 ```
 
 ### Check Doc Sync

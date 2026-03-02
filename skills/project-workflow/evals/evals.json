@@ -1,0 +1,26 @@
+{
+  "skill_name": "project-workflow",
+  "evals": [
+    {
+      "id": 1,
+      "name": "init-feature-workflow",
+      "prompt": "Initialize a new workflow for implementing user authentication feature",
+      "expected_output": "docs/workflow/auth-feature.yaml created with feature_dev scenario and all 7 stages defined (brainstorming, project-docs, writing-plans, project-task, executing-plans, requesting-code-review, finishing-a-development-branch)",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "advance-workflow",
+      "prompt": "Advance the auth-feature workflow to the next stage and trigger the next skill",
+      "expected_output": "Stage status updated from pending to in_progress, previous stage marked completed, state file updated with timestamps",
+      "files": ["docs/workflow/auth-feature.yaml"]
+    },
+    {
+      "id": 3,
+      "name": "workflow-report",
+      "prompt": "Show progress report for all active workflows",
+      "expected_output": "Summary of all workflows with completion percentages, current stage info, and overall progress statistics",
+      "files": []
+    }
+  ]
+}

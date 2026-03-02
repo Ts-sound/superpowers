@@ -1,0 +1,32 @@
+scenario: "feature_dev"
+project_name: "${PROJECT_NAME}"
+created: "${CREATED_AT}"
+updated: "${UPDATED_AT}"
+
+current_stage: 1
+status: "active"
+
+stages:
+  - id: 1
+    name: "${STAGE_1_NAME}"
+    skill: "${STAGE_1_SKILL}"
+    status: "pending"
+    started_at: null
+    completed_at: null
+    output: null
+
+  - id: 2
+    name: "${STAGE_2_NAME}"
+    skill: "${STAGE_2_SKILL}"
+    status: "pending"
+    started_at: null
+    completed_at: null
+    output: null
+
+  - id: 3
+    name: "${STAGE_3_NAME}"
+    skill: "${STAGE_3_SKILL}"
+    status: "pending"
+    started_at: null
+    completed_at: null
+    output: null

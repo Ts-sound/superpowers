@@ -69,7 +69,7 @@ class TaskManager:
             yaml.dump(data, f, default_flow_style=False, sort_keys=False)
     
     def add_task(self, file_path: str, name: str, description: str = "",
-                 priority: str = "medium", dependencies: List[int] = None) -> None:
+                 priority: str = "medium", dependencies: Optional[List[int]] = None) -> None:
         """Add a task to the list."""
         data = self.load_tasks(file_path)
         
@@ -249,7 +249,7 @@ class TaskManager:
         overall = (total_completed / total_tasks * 100) if total_tasks > 0 else 0
         print(f"Overall: {total_completed}/{total_tasks} ({overall:.1f}%)")
     
-    def convert_plan_to_tasks(self, plan_file: str, task_name: str = None) -> None:
+    def convert_plan_to_tasks(self, plan_file: str, task_name: Optional[str] = None) -> None:
         """Convert a plan file to task list."""
         plan_path = Path(plan_file)
         if not plan_path.exists():

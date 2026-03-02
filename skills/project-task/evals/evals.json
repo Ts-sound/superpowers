@@ -1,0 +1,26 @@
+{
+  "skill_name": "project-task",
+  "evals": [
+    {
+      "id": 1,
+      "name": "create-task-list",
+      "prompt": "Create a task list for implementing user authentication feature",
+      "expected_output": "A docs/task/auth.yaml file with initial task structure and metadata",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "execute-tasks",
+      "prompt": "Execute tasks from docs/task/auth.yaml automatically using the task manager script",
+      "expected_output": "Tasks executed in order with status updates (pending -> in_progress -> completed) and timestamps recorded",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "convert-plan-to-tasks",
+      "prompt": "Convert docs/plan/2024-01-01-auth-plan.md to executable tasks in docs/task/",
+      "expected_output": "A docs/task/auth.yaml file with tasks derived from the plan, including dependencies between sequential tasks",
+      "files": ["docs/plan/2024-01-01-auth-plan.md"]
+    }
+  ]
+}

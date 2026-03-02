@@ -1,0 +1,29 @@
+name: "Project Name"
+description: "Project description"
+created: "2024-01-01T00:00:00Z"
+updated: "2024-01-01T00:00:00Z"
+
+tasks:
+  - id: 1
+    name: "Task name"
+    description: |
+      Detailed task description.
+      Include any relevant context or requirements.
+    status: "pending"
+    priority: "medium"
+    created: "2024-01-01T00:00:00Z"
+    started: null
+    completed: null
+    dependencies: []
+    notes: []
+
+  - id: 2
+    name: "Dependent task"
+    description: "This task depends on task 1"
+    status: "pending"
+    priority: "medium"
+    created: "2024-01-01T00:00:00Z"
+    started: null
+    completed: null
+    dependencies: [1]
+    notes: []

@@ -88,3 +88,21 @@ The skill itself tells you which.
 ## User Instructions
 
 Instructions say WHAT, not HOW. "Add X" or "Fix Y" doesn't mean skip workflows.
+
+## Available Skills
+
+### Diagram Creation
+- **mermaid-diagram** - Create mermaid diagrams (flowchart, sequence, gantt, class, state, pie, timeline, user journey)
+  - Triggers: "draw a flowchart", "create sequence diagram", "mermaid chart"
+
+### Project Management
+- **project-structure** - Manage project engineering structure (src/, tests/, docs/, scripts/)
+  - Triggers: "create project", "project structure", "scaffold repository", "setup directory"
+
+### Documentation
+- **project-docs** - Manage project documentation (docs/design/, module design, sync check)
+  - Triggers: "create design doc", "update architecture", "check docs sync"
+
+### Task Management
+- **project-task** - Manage task lists and execute automatically (docs/task/, task_manager.py)
+  - Triggers: "create task list", "execute tasks", "track progress", "convert plan to tasks"

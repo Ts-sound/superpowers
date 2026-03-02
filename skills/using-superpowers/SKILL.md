@@ -106,3 +106,7 @@ Instructions say WHAT, not HOW. "Add X" or "Fix Y" doesn't mean skip workflows.
 ### Task Management
 - **project-task** - Manage task lists and execute automatically (docs/task/, task_manager.py)
   - Triggers: "create task list", "execute tasks", "track progress", "convert plan to tasks"
+
+### Workflow Orchestration
+- **project-workflow** - Manage overall project workflow and orchestrate skills (docs/workflow/, workflow_manager.py)
+  - Triggers: "start workflow", "advance to next stage", "workflow status", "project progress"

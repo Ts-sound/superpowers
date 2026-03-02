@@ -41,11 +41,48 @@ project-name/
 
 ## Workflow
 
-1. **Understand requirements** — Ask about project type, language, and specific needs
-2. **Select templates** — Choose appropriate templates based on language
-3. **Generate structure** — Create directories and files
-4. **Configure scripts** — Set up setup.sh, test.sh, build.sh
-5. **Add CI/CD** — Configure GitHub Actions if needed
+### Project Type Confirmation
+
+Before creating structure, confirm project details:
+
+**Questions to ask:**
+1. **Project type**: python/micropython/nodejs/java/go/rust/embedded/...
+2. **Build method**: compiled/interpreted/mixed
+3. **CI/CD needs**: Does this project need CI/CD configuration?
+
+### Generate Structure
+
+1. Create directories based on project type
+2. Generate configuration files
+3. Create automation scripts
+
+### Fake File Marking
+
+For features not needed by the project type, create placeholder files with SKIP comments:
+
+**Example 1 - CI/CD script for MicroPython:**
+```bash
+# scripts/ci.sh
+# SKIP: not needed for micropython project - deployment via direct flash
+#!/bin/bash
+echo "CI/CD not required"
+```
+
+**Example 2 - GitHub Actions for embedded:**
+```yaml
+# .github/workflows/ci.yml
+# SKIP: not needed for micropython project - no automated testing pipeline
+```
+
+**Fake files should be committed to git** to maintain structure completeness.
+
+### Configure Scripts
+
+Set up setup.sh, test.sh, build.sh based on project type.
+
+### Add CI/CD
+
+Configure GitHub Actions if needed, otherwise create skipped placeholder.
 
 ## Script Templates
 
@@ -225,6 +262,13 @@ jobs:
       - run: pytest tests/ -v
 ```
 
+**For projects that don't need CI/CD** (e.g., MicroPython embedded projects), create a placeholder with SKIP comment:
+
+```yaml
+# .github/workflows/ci.yml
+# SKIP: not needed for micropython project - deployment via direct flash
+```
+
 ## Commands
 
 ### Create New Project
@@ -252,7 +296,8 @@ To validate a project structure:
 2. **Plural forms** — Use `tests/`, `docs/`, `scripts/` (not singular)
 3. **Separation of concerns** — Keep source, tests, and docs separate
 4. **Automation first** — Always include setup/test/build scripts
-5. **CI/CD ready** — Include GitHub Actions by default
+5. **CI/CD ready** — Include GitHub Actions by default, or mark with SKIP comment if not needed
+6. **Fake files committed** — Placeholder files with SKIP comments should be committed to git
 
 ## When to Use This Skill
 

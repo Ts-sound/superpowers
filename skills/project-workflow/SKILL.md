@@ -224,6 +224,19 @@ Output includes:
 - Current stage for each
 - Overall progress summary
 
+## User Participation Points
+
+Only the following stages require user confirmation:
+
+| Stage | Participation | Confirmation Content |
+|-------|---------------|---------------------|
+| Stage 2: brainstorming | Design discussion | Architecture, modules, interface design |
+| Stage 3: project-docs | Document review | Design document accuracy |
+
+**Typical feedback example**: "modules 与 src 分层不对应" → Return to brainstorming to revise.
+
+All other stages (project-structure, writing-plans, project-task) are **automatically executed**.
+
 ## Best Practices
 
 1. **One workflow per feature** — Create separate workflow for each feature/bug

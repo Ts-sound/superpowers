@@ -68,19 +68,24 @@ implementation
 
 ### With mermaid-diagram
 
-**Always invoke mermaid-diagram** before writing diagram code.
+**Generate mermaid code directly** - do not invoke external skill for simple diagrams.
 
-**When to invoke:**
+**When to use mermaid:**
 
-| Design Section | Diagram Type | Purpose |
-|----------------|--------------|---------|
-| Architecture overview | `flowchart` (graph TD/LR) | System components and relationships |
-| Key Sequences | `sequenceDiagram` | Module interactions, API flows |
-| State Machine | `stateDiagram-v2` | State transitions, lifecycle |
-| Data Model | `classDiagram` | Class structures, relationships |
-| Timeline | `timeline` or `gantt` | Project milestones, release schedule |
-| User Flows | `journey` | User experience, service design |
-| Proportions | `pie` | Distribution, breakdown |
+| Design Section | Diagram Type | Configuration |
+|----------------|--------------|---------------|
+| Architecture overview | `flowchart TD` | subgraph with `direction LR` |
+| Module structure | `flowchart LR` | - |
+| Class structure | `classDiagram` | - |
+| Sequence/Interaction | `sequenceDiagram` | - |
+| State Machine | `stateDiagram-v2` | - |
+| Timeline | `timeline` | - |
+
+**Checklist:**
+- [ ] Replace ASCII diagrams with mermaid
+- [ ] Architecture subgraphs use `direction LR` for horizontal layout
+- [ ] Each module doc includes classDiagram
+- [ ] Process flows use flowchart
 
 ## Design Document Templates
 
@@ -88,6 +93,16 @@ implementation
 
 ```markdown
 # System Design
+
+## 项目类型
+
+| 属性 | 值 |
+|------|-----|
+| **类型** | {project_type} |
+| **目标设备/平台** | {target_platform} |
+| **语言/运行时** | {language/runtime} |
+| **构建方式** | {build_method} |
+| **CI/CD** | {cicd_status} |
 
 ## Overview
 Brief description of the system and its purpose.

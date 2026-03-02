@@ -158,6 +158,23 @@ class WorkflowManager:
         percent = (completed / total * 100) if total > 0 else 0
         print(f"Progress: {completed}/{total} ({percent:.1f}%)")
     
+    def _commit_stage(self, name: str, stage: dict) -> None:
+        """Git commit stage output"""
+        import subprocess
+        
+        commit_msg = f"{stage['name']}: complete {stage['skill']} stage"
+        
+        subprocess.run(['git', 'add', '-A'], check=False, capture_output=True)
+        result = subprocess.run(['git', 'commit', '-m', commit_msg], 
+                              capture_output=True, text=True, check=False)
+        
+        if "nothing to commit" in result.stdout or "No changes" in result.stdout:
+            print(f"[GIT] No changes to commit")
+        elif result.returncode == 0:
+            print(f"[GIT] Committed: {commit_msg}")
+        else:
+            print(f"[GIT] Commit skipped: {result.stderr.strip()}")
+    
     def next_stage(self, name: str) -> None:
         """Advance to the next stage."""
         data = self.load_workflow(name)
@@ -178,6 +195,9 @@ class WorkflowManager:
         if current_stage["status"] == "pending":
             current_stage["status"] = "completed"
             current_stage["completed_at"] = datetime.now().isoformat()
+            
+            # Git commit current stage output
+            self._commit_stage(name, current_stage)
         
         # Check if there's a next stage
         if current_idx + 1 < len(stages):

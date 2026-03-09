@@ -10,14 +10,17 @@ Usage:
     python workflow_manager.py report                     Generate progress report
     python workflow_manager.py list                       List all active workflows
     python workflow_manager.py archive <name>             Archive completed workflow
+    python workflow_manager.py auto <message>             Auto-detect scenario and initialize
+    python workflow_manager.py quick-fix <description>    Quick fix mode (skip workflow tracking)
 """
 
 import sys
 import os
+import re
 import yaml
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Tuple
 
 
 class WorkflowManager:
@@ -58,6 +61,20 @@ class WorkflowManager:
     
     def __init__(self, workflow_dir: str = "docs/workflow"):
         self.workflow_dir = Path(workflow_dir)
+        
+        # Keywords for auto-detection of scenarios (ordered by priority)
+        self.SCENARIO_KEYWORDS = {
+            'docs_update': ['readme', 'doc', 'comment', 'typo', 'rename', 'move', 'refactor', 'clean up'],
+            'bug_fix': ['bug', 'fix', 'error', 'crash', 'fail', 'broken', 'issue', 'wrong', 'not working', 'exception'],
+            'feature_dev': ['add', 'implement', 'support', 'enable', 'create', 'new feature', 'enhance', 'requirement', 'migrate', 'async', 'concurrent'],
+            'project_init': ['new project', 'initialize', 'scaffold', 'setup', 'start project'],
+        }
+        
+        # Keywords for complexity analysis
+        self.COMPLEXITY_KEYWORDS = {
+            'high': ['architecture', 'refactor', 'migrate', 'async', 'concurrent', 'restructure', 'redesign'],
+            'low': ['typo', 'rename', 'simple', 'minor', 'quick', 'small', 'tiny'],
+        }
         
     def init_workflow(self, scenario: str, name: str) -> Path:
         """Initialize a new workflow."""
@@ -162,6 +179,14 @@ class WorkflowManager:
         """Git commit stage output"""
         import subprocess
         
+        # Check if there are any changes to commit
+        result = subprocess.run(['git', 'status', '--porcelain'], 
+                               capture_output=True, text=True, check=False)
+        
+        if not result.stdout.strip():
+            print(f"[GIT] No changes to commit for stage: {stage['name']}")
+            return
+        
         commit_msg = f"{stage['name']}: complete {stage['skill']} stage"
         
         subprocess.run(['git', 'add', '-A'], check=False, capture_output=True)
@@ -174,6 +199,16 @@ class WorkflowManager:
             print(f"[GIT] Committed: {commit_msg}")
         else:
             print(f"[GIT] Commit skipped: {result.stderr.strip()}")
+    
+    def _trigger_skill(self, skill_name: str) -> None:
+        """
+        Trigger a skill execution.
+        In real implementation, this would invoke the skill tool.
+        For now, print instructions.
+        """
+        print(f"\n[SKILL] Triggering: {skill_name}")
+        print(f"[SKILL] Skill '{skill_name}' should be invoked now.")
+        print(f"[SKILL] In integration mode, this would automatically invoke the skill tool.")
     
     def next_stage(self, name: str) -> None:
         """Advance to the next stage."""
@@ -208,11 +243,12 @@ class WorkflowManager:
             data["current_stage"] = current_idx + 2
             
             print(f"\nAdvancing to stage {data['current_stage']}: {next_stage['name']}")
-            print(f"Triggering skill: {next_stage['skill']}")
             
-            # In real implementation, this would trigger the skill
-            # For now, we just update the state
-            print(f"[Skill execution would happen here: {next_stage['skill']}]")
+            # Git commit current stage output
+            self._commit_stage(name, current_stage)
+            
+            # Trigger the next skill
+            self._trigger_skill(next_stage['skill'])
         else:
             # All stages completed
             data["status"] = "completed"
@@ -333,6 +369,100 @@ class WorkflowManager:
         data["status"] = "archived"
         self.save_workflow(name, data)
         print(f"Archived workflow: {name}")
+    
+    def auto_detect_scenario(self, message: str) -> Tuple[str, str]:
+        """
+        Auto-detect scenario and complexity from user message.
+        
+        Returns:
+            Tuple of (scenario, complexity)
+        """
+        message_lower = message.lower()
+        
+        # Detect scenario - use word boundary matching to avoid false positives
+        scenario_scores = {}
+        for scenario, keywords in self.SCENARIO_KEYWORDS.items():
+            score = 0
+            for kw in keywords:
+                if kw in message_lower:
+                    score += 1
+            scenario_scores[scenario] = score
+        
+        best_scenario = max(scenario_scores, key=scenario_scores.get)
+        best_score = scenario_scores[best_scenario]
+        
+        if best_score == 0:
+            return ('bug_fix', 'low')  # Default fallback
+        
+        # Detect complexity - check for high complexity keywords first
+        high_complexity_keywords = [
+            'architecture', 'refactor', 'migrate', 'async', 'concurrent', 
+            'redesign', 'restructure', 'rewrite', 'overhaul', 'major',
+            'multi-file', 'multiple files', 'all files', 'throughout'
+        ]
+        low_complexity_keywords = [
+            'typo', 'simple', 'minor', 'quick', 'small', 'tiny', 
+            'single', 'one line', 'config', 'constant'
+        ]
+        
+        has_high = any(kw in message_lower for kw in high_complexity_keywords)
+        has_low = any(kw in message_lower for kw in low_complexity_keywords)
+        
+        if has_high:
+            complexity = 'high'
+        elif has_low:
+            complexity = 'low'
+        elif best_scenario == 'docs_update':
+            complexity = 'low'
+        else:
+            complexity = 'medium'
+        
+        return (best_scenario, complexity)
+    
+    def quick_fix(self, description: str) -> None:
+        """
+        Quick fix mode - execute fix without workflow tracking.
+        For simple bugs and minor changes.
+        """
+        print("\n=== Quick Fix Mode ===")
+        print(f"Task: {description}")
+        print()
+        print("Skipping workflow tracking for this simple change.")
+        print("Proceeding with fix directly...")
+        print()
+        print("Recommended steps:")
+        print("1. Identify the issue")
+        print("2. Make minimal changes to fix")
+        print("3. Test the fix")
+        print("4. Commit with message: 'fix: <description>'")
+        print()
+    
+    def suggest_workflow(self, scenario: str, complexity: str) -> None:
+        """
+        Suggest whether to use workflow tracking based on complexity.
+        """
+        print("\n=== Workflow Suggestion ===")
+        print(f"Detected scenario: {scenario}")
+        print(f"Complexity: {complexity}")
+        print()
+        
+        if complexity == 'low':
+            print("This appears to be a simple change.")
+            print()
+            print("Options:")
+            print("1. Quick fix (skip workflow): python workflow_manager.py quick-fix '<description>'")
+            print("2. Full workflow: python workflow_manager.py init {} <name>".format(scenario))
+            print()
+        else:
+            print("This appears to be a complex change requiring proper workflow.")
+            print()
+            print("Recommended: python workflow_manager.py init {} <name>".format(scenario))
+            print()
+            print("Workflow stages:")
+            stages = self.SCENARIO_STAGES.get(scenario, [])
+            for i, stage in enumerate(stages, 1):
+                print(f"  {i}. {stage['name']} ({stage['skill']})")
+        print()
 
 
 def main():
@@ -383,6 +513,22 @@ def main():
             print("Usage: python workflow_manager.py archive <name>")
             sys.exit(1)
         manager.archive_workflow(sys.argv[2])
+    
+    elif command == "auto":
+        if len(sys.argv) < 3:
+            print("Usage: python workflow_manager.py auto '<message>'")
+            print("Example: python workflow_manager.py auto 'fix the wifi timeout bug'")
+            sys.exit(1)
+        message = ' '.join(sys.argv[2:])
+        scenario, complexity = manager.auto_detect_scenario(message)
+        manager.suggest_workflow(scenario, complexity)
+    
+    elif command == "quick-fix":
+        if len(sys.argv) < 3:
+            print("Usage: python workflow_manager.py quick-fix '<description>'")
+            sys.exit(1)
+        description = ' '.join(sys.argv[2:])
+        manager.quick_fix(description)
     
     else:
         print(f"Unknown command: {command}")

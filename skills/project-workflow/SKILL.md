@@ -1,6 +1,6 @@
 ---
 name: project-workflow
-description: "How to manage overall project workflow and orchestrate skill execution. Make sure to use this skill whenever the user mentions workflow management, project progress, advancing to next stage, or needs to coordinate multiple skills. Also trigger when initializing new projects, starting new features, fixing bugs, or updating documentation. Works closely with brainstorming, project-structure, project-docs, writing-plans, project-task, executing-plans, and other skills."
+description: "Manage overall project workflow and orchestrate skill execution. Use for complex features, multi-file changes, or when user explicitly mentions workflow. For simple bugs and minor changes, use quick-fix mode instead."
 ---
 
 # Project Workflow Management
@@ -9,7 +9,27 @@ description: "How to manage overall project workflow and orchestrate skill execu
 
 Manage overall project workflow and orchestrate skill execution across different stages. This skill provides structured workflow tracking, automatic stage advancement, and progress reporting for various project scenarios.
 
-## Supported Scenarios
+## When to Use This Skill
+
+### ✅ Use Workflow For:
+- **Complex features** requiring design, planning, and review
+- **Multi-file refactoring** affecting architecture
+- **Major bug fixes** requiring root cause analysis
+- **User explicitly requests** workflow management
+
+### ❌ Skip Workflow For (use quick-fix):
+- **Simple typos** or documentation fixes
+- **Single-line changes** (config updates, import fixes)
+- **Minor refactors** (rename, move files)
+- **Quick bug fixes** (obvious root cause, single file)
+
+## Complexity Assessment
+
+| Complexity | Indicators | Recommended Approach |
+|------------|------------|---------------------|
+| **Low** | "typo", "rename", "simple", "minor" | Quick-fix (skip workflow) |
+| **Medium** | Standard feature/bug fixes | User choice |
+| **High** | "architecture", "refactor", "migrate", "async" | Full workflow |
 
 | Scenario | ID | Use Case |
 |----------|-----|----------|
@@ -131,15 +151,24 @@ stages:
 |---------|-------------|
 | `init <scenario> <name>` | Initialize new workflow |
 | `status [name]` | Show current/specified workflow status |
-| `next` | Advance to next stage (auto-trigger skill) |
-| `goto <stage-id>` | Jump to specified stage |
+| `next <name>` | Advance to next stage (auto-trigger skill) |
+| `goto <name> <stage-id>` | Jump to specified stage |
 | `report` | Generate progress report for all workflows |
 | `list` | List all active workflows |
 | `archive <name>` | Archive completed workflow |
+| `auto '<message>'` | **NEW**: Auto-detect scenario from message |
+| `quick-fix '<description>'` | **NEW**: Skip workflow for simple changes |
 
 ### Usage Examples
 
 ```bash
+# Auto-detect scenario (NEW)
+python workflow_manager.py auto 'fix the wifi timeout bug'
+# Output: Suggests workflow or quick-fix based on complexity
+
+# Quick fix for simple changes (NEW)
+python workflow_manager.py quick-fix 'update config timeout value'
+
 # Initialize new workflow
 python workflow_manager.py init feature_dev auth-feature
 
@@ -160,6 +189,18 @@ python workflow_manager.py archive auth-feature
 ```
 
 ## Integration with Other Skills
+
+### Automatic Skill Triggering
+
+When advancing to the next stage with `next` command, the workflow manager:
+
+1. Commits current stage output to git
+2. Triggers the next skill automatically
+3. Updates workflow state file
+
+```
+Stage Complete → Git Commit → Trigger Next Skill → Update State
+```
 
 ### Skill Orchestration
 
@@ -239,17 +280,30 @@ All other stages (project-structure, writing-plans, project-task) are **automati
 
 ## Best Practices
 
-1. **One workflow per feature** — Create separate workflow for each feature/bug
-2. **Follow the sequence** — Stages are linear; complete each before advancing
-3. **Auto-trigger enabled** — Let workflow_manager trigger skills automatically
-4. **Archive when done** — Keep active workflows clean by archiving completed ones
-5. **Check status frequently** — Use `status` command to track progress
+1. **Assess complexity first** - Use `auto` command to get recommendation
+2. **Quick-fix for simple changes** - Don't over-engineer minor fixes
+3. **Full workflow for complex features** - Design → Plan → Execute → Review
+4. **Archive when done** - Keep active workflows clean
+5. **Check status frequently** - Use `status` or `report` commands
 
-## When to Use This Skill
+## Troubleshooting
 
-- User says "start a new project" or "initialize workflow"
-- User wants to "advance to next stage" or "what's next"
-- Starting new feature development
-- Fixing bugs with structured approach
-- Checking overall project progress
-- Coordinating multiple skill executions
+### Q: When should I skip the workflow?
+
+**A:** Skip workflow when:
+- Change is obvious and localized (single file)
+- Fix is a simple parameter/config update
+- User explicitly wants quick iteration
+- Change has minimal risk
+
+### Q: What if I started workflow but realized it's too simple?
+
+**A:** Use `archive <name>` to cancel, then use `quick-fix` for the actual change.
+
+### Q: How do I know which scenario to use?
+
+**A:** Use `auto '<message>'` to auto-detect, or:
+- Fixing bugs → `bug_fix`
+- Adding features → `feature_dev`
+- Updating docs → `docs_update`
+- New project → `project_init`

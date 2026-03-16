@@ -26,7 +26,7 @@ from typing import Optional, List, Dict, Any, Tuple
 class WorkflowManager:
     """Manage project workflows stored in YAML format."""
     
-    VALID_SCENARIOS = ["project_init", "feature_dev", "bug_fix", "docs_update"]
+    VALID_SCENARIOS = ["project_init", "feature_dev", "bug_fix", "docs_update", "refactor", "tech_research"]
     VALID_STATUSES = ["active", "completed", "archived"]
     
     # Define workflow stages for each scenario
@@ -57,6 +57,18 @@ class WorkflowManager:
             {"name": "project-docs", "skill": "project-docs"},
             {"name": "project-task", "skill": "project-task"},
         ],
+        "refactor": [
+            {"name": "brainstorming", "skill": "brainstorming"},
+            {"name": "project-task", "skill": "project-task"},
+            {"name": "executing-plans", "skill": "executing-plans"},
+            {"name": "verification-before-completion", "skill": "verification-before-completion"},
+            {"name": "requesting-code-review", "skill": "requesting-code-review"},
+        ],
+        "tech_research": [
+            {"name": "brainstorming", "skill": "brainstorming"},
+            {"name": "project-task", "skill": "project-task"},
+            {"name": "executing-plans", "skill": "executing-plans"},
+        ],
     }
     
     def __init__(self, workflow_dir: str = "docs/workflow"):
@@ -64,9 +76,11 @@ class WorkflowManager:
         
         # Keywords for auto-detection of scenarios (ordered by priority)
         self.SCENARIO_KEYWORDS = {
-            'docs_update': ['readme', 'doc', 'comment', 'typo', 'rename', 'move', 'refactor', 'clean up'],
+            'refactor': ['refactor', 'restructure', 'simplify', 'improve', 'optimize', 'reorganize', 'clean up'],
+            'docs_update': ['readme', 'doc', 'comment', 'typo', 'rename', 'move'],
             'bug_fix': ['bug', 'fix', 'error', 'crash', 'fail', 'broken', 'issue', 'wrong', 'not working', 'exception'],
             'feature_dev': ['add', 'implement', 'support', 'enable', 'create', 'new feature', 'enhance', 'requirement', 'migrate', 'async', 'concurrent'],
+            'tech_research': ['research', 'compare', 'select', 'choose', 'evaluate', 'technology', 'library', 'framework', 'tool'],
             'project_init': ['new project', 'initialize', 'scaffold', 'setup', 'start project'],
         }
         
@@ -388,7 +402,7 @@ class WorkflowManager:
                     score += 1
             scenario_scores[scenario] = score
         
-        best_scenario = max(scenario_scores, key=scenario_scores.get)
+        best_scenario = max(scenario_scores.keys(), key=lambda s: scenario_scores[s])
         best_score = scenario_scores[best_scenario]
         
         if best_score == 0:

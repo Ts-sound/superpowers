@@ -114,3 +114,26 @@ After saving the plan, offer execution choice:
 **If Parallel Session chosen:**
 - Guide them to open new session in worktree
 - **REQUIRED SUB-SKILL:** New session uses superpowers:executing-plans
+
+## Post-Execution Checklist
+
+After execution completes, verify:
+
+### For Feature Development
+- [ ] Code matches design document
+- [ ] Design document updated if implementation differs
+- [ ] README.md updated with new features/config
+- [ ] All tests pass
+- [ ] Code review completed
+
+### For Refactoring
+- [ ] All tests pass after refactoring
+- [ ] Performance benchmarks (if applicable)
+- [ ] Design document updated with new structure
+- [ ] Module documentation updated
+
+### For Technical Research
+- [ ] Research report created (`docs/research/<topic>.md`)
+- [ ] POC code tested and documented
+- [ ] Recommendation clearly stated
+- [ ] Implementation plan if recommendation accepted

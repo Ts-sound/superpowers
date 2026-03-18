@@ -89,7 +89,7 @@ The workflow orchestrates the following AI agents:
 ### Project Initialization (`project_init`)
 
 ```
-1. project-structure → 2. brainstorming → 3. project-docs → 4. writing-plans → 5. project-task
+1. project-structure → 2. brainstorming → 3. project-docs → 4. writing-plans → 5. executing-plans
 ```
 
 | Stage | Skill | Output |
@@ -98,12 +98,12 @@ The workflow orchestrates the following AI agents:
 | 2. Design | brainstorming | Design document |
 | 3. Docs | project-docs | `docs/design/README.md` |
 | 4. Plan | writing-plans | `docs/plan/YYYY-MM-DD-init-plan.md` |
-| 5. Task | project-task | `docs/task/init.yaml` |
+| 5. Execute | executing-plans | Code implementation |
 
 ### Feature Development (`feature_dev`)
 
 ```
-1. brainstorming → 2. project-docs → 3. writing-plans → 4. project-task → 5. executing-plans → 6. requesting-code-review → 7. finishing-a-development-branch
+1. brainstorming → 2. project-docs → 3. writing-plans → 4. executing-plans → 5. requesting-code-review → 6. finishing-a-development-branch
 ```
 
 | Stage | Skill | Output |
@@ -111,60 +111,107 @@ The workflow orchestrates the following AI agents:
 | 1. Design | brainstorming | Feature design |
 | 2. Docs | project-docs | `docs/design/<feature>/README.md` |
 | 3. Plan | writing-plans | `docs/plan/YYYY-MM-DD-feature-plan.md` |
-| 4. Task | project-task | `docs/task/<feature>.yaml` |
-| 5. Execute | executing-plans | Code implementation |
-| 6. Review | requesting-code-review | Code review report |
-| 7. Complete | finishing-a-development-branch | Branch merged |
+| 4. Execute | executing-plans | Code implementation |
+| 5. Review | requesting-code-review | Code review report |
+| 6. Complete | finishing-a-development-branch | Branch merged |
+
+**任务管理**: 使用 TodoWrite 工具管理任务执行进度，不需要创建独立任务文件。
+
+**设计文档更新**: 
+- 在 `executing-plans` 阶段完成后，检查实现是否与设计文档一致
+- 如有偏差，调用 `project-docs` 更新设计文档
+- 更新 `README.md` 反映新功能
+
+**完成检查清单**:
+- [ ] 代码实现与设计文档一致
+- [ ] 设计文档已更新反映实际实现
+- [ ] README.md 已更新（如有新功能/配置）
+- [ ] 所有测试通过
 
 ### Bug Fix (`bug_fix`)
 
 ```
-1. systematic-debugging → 2. project-task → 3. executing-plans → 4. verification-before-completion
+1. systematic-debugging → 2. executing-plans → 3. verification-before-completion
 ```
 
 | Stage | Skill | Output |
 |-------|-------|--------|
 | 1. Debug | systematic-debugging | Root cause analysis |
-| 2. Task | project-task | `docs/task/bugfix-<id>.yaml` |
-| 3. Execute | executing-plans | Bug fix code |
-| 4. Verify | verification-before-completion | Verification report |
+| 2. Execute | executing-plans | Bug fix code |
+| 3. Verify | verification-before-completion | Verification report |
+
+**任务管理**: 使用 TodoWrite 工具管理修复步骤。
 
 ### Documentation Update (`docs_update`)
 
 ```
-1. project-docs → 2. project-task
+1. project-docs → 2. executing-plans
 ```
 
 | Stage | Skill | Output |
 |-------|-------|--------|
 | 1. Docs | project-docs | Updated design docs |
-| 2. Task | project-task | `docs/task/docs-sync.yaml` |
+| 2. Execute | executing-plans | Documentation changes |
+
+**任务管理**: 使用 TodoWrite 工具管理文档更新任务。
 
 ### Code Refactoring (`refactor`)
 
 ```
-1. brainstorming → 2. project-task → 3. executing-plans → 4. verification-before-completion → 5. requesting-code-review
+1. brainstorming → 2. executing-plans → 3. verification-before-completion → 4. requesting-code-review → 5. project-docs
 ```
 
 | Stage | Skill | Output |
 |-------|-------|--------|
 | 1. Analysis | brainstorming | Refactoring plan, risk assessment |
-| 2. Task | project-task | `docs/task/refactor-<module>.yaml` |
-| 3. Execute | executing-plans | Refactored code |
-| 4. Verify | verification-before-completion | Tests pass, performance comparison |
-| 5. Review | requesting-code-review | Code quality review |
+| 2. Execute | executing-plans | Refactored code |
+| 3. Verify | verification-before-completion | Tests pass, performance comparison |
+| 4. Review | requesting-code-review | Code quality review |
+| 5. Docs | project-docs | Updated design docs |
+
+**任务管理**: 使用 TodoWrite 工具管理重构任务，每个模块或功能点一个任务。
+
+**设计文档更新**: 
+- 重构完成后必须调用 `project-docs` 更新设计文档
+- 确保文档反映新的代码结构和模块划分
+- 更新相关架构图和流程图
+
+**完成检查清单**:
+- [ ] 重构后所有测试通过
+- [ ] 性能没有回退（或有提升）
+- [ ] 设计文档已更新反映新结构
+- [ ] 模块文档已更新
 
 ### Technical Research (`tech_research`)
 
 ```
-1. brainstorming → 2. project-task → 3. executing-plans
+1. brainstorming → 2. executing-plans → 3. project-docs
 ```
 
 | Stage | Skill | Output |
 |-------|-------|--------|
 | 1. Research | brainstorming | Option analysis, recommendation |
-| 2. Task | project-task | `docs/task/tech-research-<topic>.yaml` |
-| 3. POC | executing-plans | Prototype implementation |
+| 2. Execute | executing-plans | Prototype implementation |
+| 3. Docs | project-docs | Research report |
+
+**任务管理**: 使用 TodoWrite 工具管理研究任务。
+
+**研究文档输出**:
+- 必须创建调查报告 `docs/research/<topic>.md`
+- 包含：技术方案对比、优缺点分析、推荐方案、实施建议
+- 如有 POC 代码，说明代码位置和测试结果
+
+**文档结构建议**:
+```markdown
+# <主题> 调研报告
+
+## 背景
+## 候选方案
+## 对比分析
+## 推荐方案
+## 实施计划
+## 参考资料
+```
 
 ## Directory Structure
 
@@ -176,8 +223,7 @@ project-root/
 │   │   ├── <name>.yaml        # Individual workflow state files
 │   │   └── README.md          # Workflow guide (optional)
 │   ├── design/                # Design documents
-│   ├── plan/                  # Implementation plans
-│   └── task/                  # Task definitions
+│   └── plan/                  # Implementation plans
 └── skills/project-workflow/
     ├── scripts/
     │   └── workflow_manager.py
@@ -187,6 +233,8 @@ project-root/
     └── evals/
         └── evals.json
 ```
+
+**注意**: 任务管理使用 TodoWrite 工具，不需要创建 `docs/task/` 目录。
 
 ## Workflow State Format
 
@@ -297,24 +345,13 @@ Stage Complete → Git Commit → Trigger Next Skill → Update State
 | project-structure | `project-structure` | Project scaffolding |
 | project-docs | `project-docs` | Design documentation |
 | writing-plans | `writing-plans` | Implementation planning |
-| project-task | `project-task` | Task creation |
 | executing-plans | `executing-plans` | Code execution |
 | systematic-debugging | `systematic-debugging` | Bug investigation |
 | verification-before-completion | `verification-before-completion` | Fix verification |
 | requesting-code-review | `requesting-code-review` | Code review |
 | finishing-a-development-branch | `finishing-a-development-branch` | Branch completion |
 
-### With project-task
-
-**Relationship:**
-- `project-workflow` manages **macro stages** (design → plan → task → execute)
-- `project-task` manages **micro tasks** within each stage
-- State files are separate:
-  - Workflow: `docs/workflow/<name>.yaml`
-  - Tasks: `docs/task/<name>.yaml`
-- Scripts are separate:
-  - Workflow: `workflow_manager.py`
-  - Tasks: `task_manager.py`
+**任务管理**: 使用 TodoWrite 工具管理任务执行进度。
 
 ## Commands Reference
 
@@ -356,12 +393,14 @@ Only the following stages require user confirmation:
 
 | Stage | Participation | Confirmation Content |
 |-------|---------------|---------------------|
-| Stage 2: brainstorming | Design discussion | Architecture, modules, interface design |
-| Stage 3: project-docs | Document review | Design document accuracy |
+| Stage 1: brainstorming | Design discussion | Architecture, modules, interface design |
+| Stage 2: project-docs | Document review | Design document accuracy |
 
 **Typical feedback example**: "modules 与 src 分层不对应" → Return to brainstorming to revise.
 
-All other stages (project-structure, writing-plans, project-task) are **automatically executed**.
+All other stages (project-structure, writing-plans, executing-plans) are **automatically executed**.
+
+**任务管理**: 使用 TodoWrite 工具跟踪任务进度，无需用户确认。
 
 ## Best Practices
 

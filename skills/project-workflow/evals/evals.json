@@ -5,7 +5,7 @@
       "id": 1,
       "name": "init-feature-workflow",
       "prompt": "Initialize a new workflow for implementing user authentication feature",
-      "expected_output": "docs/workflow/auth-feature.yaml created with feature_dev scenario and all 7 stages defined (brainstorming, project-docs, writing-plans, project-task, executing-plans, requesting-code-review, finishing-a-development-branch)",
+      "expected_output": "docs/workflow/auth-feature.yaml created with feature_dev scenario and all 6 stages defined (brainstorming, project-docs, writing-plans, executing-plans, requesting-code-review, finishing-a-development-branch)",
       "files": []
     },
     {

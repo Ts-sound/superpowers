@@ -36,37 +36,32 @@ class WorkflowManager:
             {"name": "brainstorming", "skill": "brainstorming"},
             {"name": "project-docs", "skill": "project-docs"},
             {"name": "writing-plans", "skill": "writing-plans"},
-            {"name": "project-task", "skill": "project-task"},
         ],
         "feature_dev": [
             {"name": "brainstorming", "skill": "brainstorming"},
             {"name": "project-docs", "skill": "project-docs"},
             {"name": "writing-plans", "skill": "writing-plans"},
-            {"name": "project-task", "skill": "project-task"},
             {"name": "executing-plans", "skill": "executing-plans"},
             {"name": "requesting-code-review", "skill": "requesting-code-review"},
             {"name": "finishing-a-development-branch", "skill": "finishing-a-development-branch"},
         ],
         "bug_fix": [
             {"name": "systematic-debugging", "skill": "systematic-debugging"},
-            {"name": "project-task", "skill": "project-task"},
             {"name": "executing-plans", "skill": "executing-plans"},
             {"name": "verification-before-completion", "skill": "verification-before-completion"},
         ],
         "docs_update": [
             {"name": "project-docs", "skill": "project-docs"},
-            {"name": "project-task", "skill": "project-task"},
+            {"name": "executing-plans", "skill": "executing-plans"},
         ],
         "refactor": [
             {"name": "brainstorming", "skill": "brainstorming"},
-            {"name": "project-task", "skill": "project-task"},
             {"name": "executing-plans", "skill": "executing-plans"},
             {"name": "verification-before-completion", "skill": "verification-before-completion"},
             {"name": "requesting-code-review", "skill": "requesting-code-review"},
         ],
         "tech_research": [
             {"name": "brainstorming", "skill": "brainstorming"},
-            {"name": "project-task", "skill": "project-task"},
             {"name": "executing-plans", "skill": "executing-plans"},
         ],
     }

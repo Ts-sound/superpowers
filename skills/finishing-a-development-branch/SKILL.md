@@ -35,7 +35,34 @@ Cannot proceed with merge/PR until tests pass.
 
 Stop. Don't proceed to Step 2.
 
-**If tests pass:** Continue to Step 2.
+**If tests pass:** Continue to Step 1b.
+
+### Step 1b: Check Design Document Consistency
+
+**For feature development and refactoring:**
+
+1. **Compare implementation with design** (`docs/design/README.md`)
+   - Does the code match the design?
+   - Are there any significant deviations?
+
+2. **Check if design doc needs update:**
+   - If implementation differs from design → Update design doc
+   - If new APIs/config added → Update README.md
+   - If module structure changed → Update module docs
+
+3. **For technical research:**
+   - Verify research report exists (`docs/research/<topic>.md`)
+   - Check POC code is documented
+
+**If updates needed:**
+```
+Design document updates required:
+- [List specific updates]
+
+Complete updates before proceeding.
+```
+
+**If everything is consistent:** Continue to Step 2.
 
 ### Step 2: Determine Base Branch
 

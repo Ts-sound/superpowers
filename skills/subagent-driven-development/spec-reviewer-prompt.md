@@ -18,6 +18,10 @@ Task tool (general-purpose):
 
     [From implementer's report]
 
+    ## Current Terminology/Format Conventions
+
+    [From design doc - inject key terminology]
+
     ## CRITICAL: Do Not Trust the Report
 
     The implementer finished suspiciously quickly. Their report may be incomplete,
@@ -43,19 +47,35 @@ Task tool (general-purpose):
     - Are there requirements they skipped or missed?
     - Did they claim something works but didn't actually implement it?
 
-    **Extra/unneeded work:**
-    - Did they build things that weren't requested?
-    - Did they over-engineer or add unnecessary features?
-    - Did they add "nice to haves" that weren't in spec?
+    **Extra/unneeded work - CLASSIFY:**
+    
+    1. **Core Spec Violation** (must fix):
+       - Changes outside specified files (unless logically necessary)
+       - Breaking architecture constraints
+       - Not following design doc patterns
+    
+    2. **Necessary Related Changes** (allow, mark as OK):
+       - Dependencies required by core feature (e.g., new enum in shared module)
+       - Backward compatibility fixes
+       - Test infrastructure updates
+    
+    3. **True Extra/Unneeded** (must fix):
+       - Features not in spec
+       - "Nice to have" additions
+       - Over-engineering
+    
+    Judge by: Is this change a necessary dependency of core feature?
 
     **Misunderstandings:**
     - Did they interpret requirements differently than intended?
     - Did they solve the wrong problem?
     - Did they implement the right feature but wrong way?
+    - Does terminology match agreed conventions?
 
     **Verify by reading code, not by trusting report.**
 
     Report:
     - ✅ Spec compliant (if everything matches after code inspection)
-    - ❌ Issues found: [list specifically what's missing or extra, with file:line references]
+    - ❌ Issues: [list core violations and true extras with file:line refs]
+    - ⚠️ Related changes (OK): [list necessary related changes - these are allowed]
 ```

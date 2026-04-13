@@ -19,12 +19,29 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 ## Bite-Sized Task Granularity
 
-**Each step is one action (2-5 minutes):**
-- "Write the failing test" - step
-- "Run it to make sure it fails" - step
-- "Implement the minimal code to make the test pass" - step
-- "Run the tests and make sure they pass" - step
-- "Commit" - step
+**Each task covers one logical unit (10-30 minutes):**
+- Describe what to build, not how to build it
+- Include acceptance criteria and file list
+- Subagent implements from design doc, not plan
+
+**Good task:**
+```
+Task 1: Add Role enum for new identity types
+
+Files: src/models/role.py, tests/models/test_role.py
+
+Acceptance:
+- New roles added to enum
+- Backward compatible with existing roles
+- Tests pass
+
+Implementation: Follow design doc section 3.1
+```
+
+**Avoid:**
+- Complete code examples in plan
+- Overly detailed steps (2-5 minutes is too granular)
+- Spec overly restrictive ("only modify these files")
 
 ## Plan Document Header
 
@@ -46,53 +63,51 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 ## Task Structure
 
+**Simplified format - focus on what, not how:**
+
 ````markdown
-### Task N: [Component Name]
+### Task N: [Feature/Component Name]
 
 **Files:**
 - Create: `exact/path/to/file.py`
-- Modify: `exact/path/to/existing.py:123-145`
+- Modify: `exact/path/to/existing.py`
 - Test: `tests/exact/path/to/test.py`
 
-**Step 1: Write the failing test**
+**Acceptance Criteria:**
+- [ ] Feature works as described in design doc
+- [ ] Tests pass (TDD approach)
+- [ ] Follows architecture constraints
 
-```python
-def test_specific_behavior():
-    result = function(input)
-    assert result == expected
-```
+**Reference:** Design doc section X.Y
 
-**Step 2: Run test to verify it fails**
+**Implementation Notes:**
+- Key constraint or gotcha (1-2 lines max)
+- Reference existing patterns to follow
+````
 
-Run: `pytest tests/path/test.py::test_name -v`
-Expected: FAIL with "function not defined"
+**Task Groups for Related Work:**
 
-**Step 3: Write minimal implementation**
+````markdown
+### Task Group 1: [Layer Name]
 
-```python
-def function(input):
-    return expected
-```
+**Tasks:** 1-4
+**Goal:** Complete layer X with all dependencies
+**Acceptance:** Layer tests pass, backward compatible
 
-**Step 4: Run test to verify it passes**
-
-Run: `pytest tests/path/test.py::test_name -v`
-Expected: PASS
-
-**Step 5: Commit**
-
-```bash
-git add tests/path/test.py src/path/file.py
-git commit -m "feat: add specific feature"
-```
+**Task 1:** ...
+**Task 2:** ...
+**Task 3:** ...
+**Task 4:** ...
 ````
 
 ## Remember
 - Exact file paths always
-- Complete code in plan (not "add validation")
-- Exact commands with expected output
+- **Keep tasks concise** - describe goal, not implementation
+- Reference design doc for implementation details
 - Reference relevant skills with @ syntax
 - DRY, YAGNI, TDD, frequent commits
+- **Core changes in specified files** - related changes allowed in related files
+- **Group related tasks** for batch execution
 
 ## Execution Handoff
 

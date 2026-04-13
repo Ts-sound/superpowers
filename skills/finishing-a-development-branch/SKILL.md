@@ -176,6 +176,25 @@ git worktree remove <worktree-path>
 
 **For Option 3:** Keep worktree.
 
+### Step 5b: Development Reflection
+
+**After cleanup, automatically analyze workflow:**
+
+```
+Work complete. Analyzing development workflow for optimization...
+```
+
+**Invoke dev-reflection skill** to:
+1. Collect commit data
+2. Identify problem patterns
+3. Generate skill optimization suggestions
+4. Present options for applying changes
+
+**Skip if:**
+- User explicitly opts out
+- Quick fix (< 3 commits)
+- Single file change
+
 ## Quick Reference
 
 | Option | Merge | Push | Keep Worktree | Cleanup Branch |

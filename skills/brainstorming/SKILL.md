@@ -25,10 +25,13 @@ You MUST create a task for each of these items and complete them in order:
 
 1. **Explore project context** — check files, docs, recent commits
 2. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
+   - **SKIP if:** Requirements doc already has detailed tables/formulas/rules → go directly to Step 3
 3. **Propose 2-3 approaches** — with trade-offs and your recommendation
 4. **Present design** — in sections scaled to their complexity, get user approval after each section
-5. **Write design doc** — save to `docs/design/README.md` with project type info and mermaid diagrams
-6. **Transition to implementation** — invoke writing-plans skill to create implementation plan
+   - **Include:** Terminology table, format specifications, validation rules
+5. **Confirm terminology and formats** — verify consistency before proceeding
+6. **Write design doc** — save to `docs/design/README.md` with project type info and mermaid diagrams
+7. **Transition to implementation** — invoke writing-plans skill to create implementation plan
 
 ## Process Flow
 
@@ -74,13 +77,27 @@ graph TD
 - Cover: architecture, components, data flow, error handling, testing
 - Be ready to go back and clarify if something doesn't make sense
 
+**Confirming terminology (Step 5):**
+After design approval, verify:
+- Enum values match UI labels
+- Number formats consistent (decimal 0.2 vs percentage 20%)
+- Validation ranges match data formats (0-1 vs 0-100)
+- Naming conventions (snake_case for config, etc.)
+
+Ask: "Let me confirm terminology and formats before we proceed..."
+
 ## After the Design
 
 **Documentation:**
 1. Write the validated design to `docs/design/README.md`
 2. Include project type information (type, platform, language/runtime, build method, CI/CD status)
 3. Use mermaid diagrams for architecture visualization
-4. Commit the design document to git
+4. **REQUIRED: Include terminology section:**
+   - Enum values → UI labels → Documentation terms
+   - Number formats (decimal/percentage) with examples
+   - Validation ranges for all numeric inputs
+   - Naming conventions for config/UI/code
+5. Commit the design document to git
 
 **Implementation:**
 - Invoke the writing-plans skill to create a detailed implementation plan

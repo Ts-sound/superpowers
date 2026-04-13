@@ -38,7 +38,7 @@ graph TD
 
 ```mermaid
 graph TD
-    Start["Read plan, extract all tasks with full text, note context, create TodoWrite"];
+    Start["Read plan, extract all tasks with full text, note context, inject terminology, create TodoWrite"];
     MoreTasks{{"More tasks remain?"}};
     FinalReview["Dispatch final code reviewer subagent for entire implementation"];
     Superpower["Use superpowers:finishing-a-development-branch"]:::greenNode;
@@ -87,6 +87,13 @@ graph TD
     class Start,DispatchImpl,AnswerQ,ImplDo,DispatchSpec,FixSpec,DispatchCode,FixQuality,MarkComplete,FinalReview process;
     class Superpower endnode;
 ```
+
+**Before dispatching first implementer:**
+Inject terminology and format conventions from design doc:
+- Enum values and UI labels
+- Number formats (decimal/percentage)
+- Validation ranges
+- Naming conventions
 
 ## Prompt Templates
 

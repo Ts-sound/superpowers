@@ -7,19 +7,36 @@ description: "How to manage project documentation structure. Make sure to use th
 
 ## Overview
 
-Manage project documentation structure with focus on design documents. This skill creates and maintains the `docs/design/` directory, integrates with mermaid-diagram for visualizations, and coordinates with writing-plans for complete documentation workflow.
+Manage project documentation structure with focus on design documents. This skill creates and maintains the `docs/design/` directory, integrates with mermaid-diagram for visualizations, and coordinates with writing-plans.
 
 ## Directory Structure
 
 ```
 docs/
-├── plan/                       # Managed by writing-plans
-│   └── YYYY-MM-DD-<topic>-plan.md
-└── design/                     # Managed by project-docs
-    ├── README.md               # Overall system design
-    └── <module>/               # Module subdirectories (short names)
-        └── README.md           # Module detailed design
+├── design/                     # Design documents
+│   ├── README.md               # Overall system design
+│   └── <module>/README.md      # Module designs
+├── plans/                      # Implementation plans (writing-plans)
+│   └── YYYY-MM-DD-<topic>.md
+├── requirements.md             # Requirements
+└── terminology.md              # Terminology definitions
+
+Root-level docs:
+├── README.md                   # Primary (English)
+├── README.zh.md                # Chinese (optional)
+└── AGENTS.md                   # AI conventions
 ```
+
+## Template Files
+
+| Template | Purpose | Location |
+|----------|---------|----------|
+| design-overview.md | System design | `templates/design-overview.md` |
+| module-design.md | Module design | `templates/module-design.md` |
+| README.md | Project README | See project-structure/templates/ |
+| AGENTS.md | AI conventions | See project-structure/templates/ |
+
+**Use templates directly** - don't inline code in SKILL.md.
 
 ## Workflow
 
@@ -27,17 +44,13 @@ docs/
 
 1. **Understand scope** — Ask about project/module being documented
 2. **Check existing docs** — Look for existing design documents
-3. **Create structure** — Set up `docs/design/` if needed
-4. **Generate templates** — Create appropriate design doc templates
-5. **Add diagrams** — Invoke mermaid-diagram for visualizations
-6. **Review and validate** — Ensure completeness
+3. **Copy template** — Use `templates/design-overview.md` or `templates/module-design.md`
+4. **Add diagrams** — Use mermaid for visualizations
+5. **Review and validate** — Ensure completeness
 
 ### Document Sync Check
 
-Triggered after:
-- Adding new features
-- Completing bug fixes
-- Module refactoring
+Triggered after: Adding new features, Completing bug fixes, Module refactoring
 
 **Check process:**
 1. Identify what changed (new files, modified modules)
@@ -49,139 +62,63 @@ Triggered after:
 
 ### With writing-plans
 
-**Flow:**
 ```
-brainstorming → design approved
-    ↓
-project-docs → create/update docs/design/
-    ↓
-writing-plans → create docs/plan/ implementation plan
-    ↓
-implementation
+brainstorming → project-docs (docs/design/) → writing-plans (docs/plans/) → implementation
 ```
 
-**Coordination:**
-- `project-docs` creates the **what** (design, architecture)
-- `writing-plans` creates the **how** (implementation tasks)
-- Design docs live in `docs/design/`
-- Plan docs live in `docs/plan/`
+- `project-docs`: the **what** (design, architecture)
+- `writing-plans`: the **how** (implementation tasks)
 
 ### With mermaid-diagram
 
-**Generate mermaid code directly** - do not invoke external skill for simple diagrams.
+**Use mermaid for:**
 
-**When to use mermaid:**
+| Design Section | Diagram Type |
+|----------------|--------------|
+| Architecture overview | `flowchart TD` |
+| Module structure | `flowchart LR` |
+| Class structure | `classDiagram` |
+| Sequence/Interaction | `sequenceDiagram` |
+| State Machine | `stateDiagram-v2` |
 
-| Design Section | Diagram Type | Configuration |
-|----------------|--------------|---------------|
-| Architecture overview | `flowchart TD` | subgraph with `direction LR` |
-| Module structure | `flowchart LR` | - |
-| Class structure | `classDiagram` | - |
-| Sequence/Interaction | `sequenceDiagram` | - |
-| State Machine | `stateDiagram-v2` | - |
-| Timeline | `timeline` | - |
-
-**Checklist:**
-- [ ] Replace ASCII diagrams with mermaid
-- [ ] Architecture subgraphs use `direction LR` for horizontal layout
-- [ ] Each module doc includes classDiagram
-- [ ] Process flows use flowchart
-
-## Design Document Templates
-
-### Overall Design (`docs/design/README.md`)
-
-```markdown
-# System Design
-
-## 项目类型
-
-| 属性 | 值 |
-|------|-----|
-| **类型** | {project_type} |
-| **目标设备/平台** | {target_platform} |
-| **语言/运行时** | {language/runtime} |
-| **构建方式** | {build_method} |
-| **CI/CD** | {cicd_status} |
-
-## Overview
-Brief description of the system and its purpose.
-
-## Architecture
-High-level architecture diagram and description.
-
-## Modules
-| Module | Description | Link |
-|--------|-------------|------|
-| auth | Authentication & authorization | [auth/](auth/README.md) |
-| api | REST API layer | [api/](api/README.md) |
-
-## Technical Decisions
-- Key architectural decisions
-- Technology choices and rationale
-
-## Data Model
-Core data structures and relationships.
-```
-
-### Module Design (`docs/design/<module>/README.md`)
-
-```markdown
-# <Module Name> Design
-
-## Overview
-Purpose and responsibilities of this module.
-
-## Architecture
-Component diagram and description.
-
-## Interfaces
-### Public API
-Functions/classes exposed by this module.
-
-### Dependencies
-Other modules this module depends on.
-
-## Key Sequences
-Key functional interaction flows. Use sequence diagrams to illustrate:
-- Main use cases
-- Error handling flows
-- Cross-module interactions
-
-## State Machine
-(if applicable) State transitions and conditions.
-```
+**Generate directly** - no external skill invocation needed.
 
 ## Commands
 
 ### Create Overall Design
 
-```bash
-# Create docs/design/README.md with system overview
-# Include architecture flowchart via mermaid-diagram
-```
+1. Copy `templates/design-overview.md`
+2. Customize for project
+3. Add mermaid diagrams (architecture, data model)
 
 ### Create Module Design
 
-```bash
-# Create docs/design/<module>/README.md
-# 
-# 1. Invoke mermaid-diagram skill for each diagram type needed
-# 2. Include diagrams based on module characteristics:
-#    - All modules: Component diagram (flowchart)
-#    - Interactive modules: Sequence diagrams (Key Sequences section)
-#    - Stateful modules: State diagram (State Machine section)
-#    - Data-heavy modules: Class diagram (Data Model section)
-```
+1. Copy `templates/module-design.md`
+2. Customize for module
+3. Add appropriate diagrams (component, sequence, state)
 
 ### Check Doc Sync
 
-```bash
-# After feature/bug completion:
-# 1. Identify changed modules
-# 2. Check corresponding design docs
-# 3. Report needed updates
-```
+1. Identify changed modules
+2. Check corresponding design docs
+3. Report needed updates
+
+## Best Practices
+
+1. **Design separate from plans** — `docs/design/` vs `docs/plans/`
+2. **Use mermaid for visuals** — Diagram worth 1000 words
+3. **Module short names** — `auth/` not `authentication/`
+4. **Update on changes** — Reflect current state
+5. **Link related docs** — Cross-reference modules
+6. **Bilingual README** — Primary + localized with switch links
+7. **AGENTS.md for AI** — Conventions for AI agents
+
+## Anti-Patterns
+
+- Implementation details in design docs (that's for plans)
+- Design docs without diagrams when visuals help
+- Letting design docs drift from implementation
+- Long names for module directories
 
 ## When to Use This Skill
 
@@ -189,20 +126,4 @@ Key functional interaction flows. Use sequence diagrams to illustrate:
 - User wants to "organize docs" or "setup documentation"
 - Adding new features → check design doc updates
 - Completing bug fixes → verify design accuracy
-- User mentions `docs/design/` or design documentation
 - Project initialization → create initial design structure
-
-## Best Practices
-
-1. **Keep design separate from plans** — `docs/design/` vs `docs/design/`
-2. **Use mermaid for visuals** — A diagram is worth 1000 words
-3. **Module short names** — `auth/` not `authentication/`
-4. **Update on changes** — Design docs should reflect current state
-5. **Link related docs** — Cross-reference between modules
-
-## Anti-Patterns
-
-- Writing implementation details in design docs (that's for plans)
-- Creating design docs without diagrams when visuals help
-- Letting design docs drift from actual implementation
-- Using long names for module directories

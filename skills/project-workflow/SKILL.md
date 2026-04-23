@@ -97,7 +97,7 @@ The workflow orchestrates the following AI agents:
 | 1. Structure | project-structure | `src/`, `tests/`, `docs/`, `scripts/` |
 | 2. Design | brainstorming | Design document |
 | 3. Docs | project-docs | `docs/design/README.md` |
-| 4. Plan | writing-plans | `docs/plan/YYYY-MM-DD-init-plan.md` |
+| 4. Plan | writing-plans | `docs/plans/YYYY-MM-DD-init-plan.md` |
 | 5. Execute | executing-plans | Code implementation |
 
 ### Feature Development (`feature_dev`)
@@ -110,7 +110,7 @@ The workflow orchestrates the following AI agents:
 |-------|-------|--------|
 | 1. Design | brainstorming | Feature design |
 | 2. Docs | project-docs | `docs/design/<feature>/README.md` |
-| 3. Plan | writing-plans | `docs/plan/YYYY-MM-DD-feature-plan.md` |
+| 3. Plan | writing-plans | `docs/plans/YYYY-MM-DD-feature-plan.md` |
 | 4. Execute | executing-plans | Code implementation |
 | 5. Review | requesting-code-review | Code review report |
 | 6. Complete | finishing-a-development-branch | Branch merged |

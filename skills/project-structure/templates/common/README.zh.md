@@ -1,17 +1,17 @@
 # ${PROJECT_NAME}
 
-Brief description of the project.
+项目简要描述。
 
-**Language**: [English](README.md) | [中文](README.zh.md)
+**语言切换**: [English](README.md) | [中文](README.zh.md)
 
-## Features
+## 功能特性
 
-- Feature 1
-- Feature 2
+- 功能 1
+- 功能 2
 
-## Installation
+## 安装
 
-### Option 1: Virtual Environment (Recommended)
+### 方式一：虚拟环境（推荐）
 
 ```powershell
 # Windows
@@ -25,26 +25,26 @@ Brief description of the project.
 source venv/bin/activate
 ```
 
-### Option 2: Global Install
+### 方式二：全局安装
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Usage
+## 使用
 
 ```bash
 python main.py
 ```
 
-## Testing
+## 测试
 
 ```bash
 pytest tests/ -v
 pytest tests/ --cov=src --cov-report=html
 ```
 
-## Building
+## 打包
 
 ```powershell
 # Windows
@@ -56,10 +56,10 @@ pyinstaller -F -w -n "${PROJECT_NAME}" main.py
 ./scripts/build.sh
 ```
 
-## Documentation
+## 文档
 
-See [docs/](docs/) for detailed documentation.
+详见 [docs/](docs/) 目录。
 
-## License
+## 许可证
 
-MIT License - See [LICENSE](LICENSE)
+MIT License - 查看 [LICENSE](LICENSE)

@@ -14,30 +14,32 @@ Help users create and manage standardized project engineering structures. This s
 ```
 project-name/
 ├── src/                        # Source code
-├── tests/                      # Test code
+├── tests/                      # Test code (mirrors src structure)
 ├── docs/                       # Documentation
+│   ├── design/                # Design documents
+│   ├── plans/                 # Implementation plans
+│   └── requirements.md        # Requirements
 ├── scripts/                    # Automation scripts
-│   ├── setup.sh               # Environment setup
-│   ├── test.sh                # Automated testing
-│   └── build.sh               # Build automation
 ├── config/                     # Configuration files
-├── data/                       # Data files (optional)
-├── .github/
-│   └── workflows/
-│       └── ci.yml             # GitHub Actions CI/CD
-├── README.md
+├── log/                        # Log files (optional)
+├── .github/workflows/          # GitHub Actions CI/CD
+├── README.md                   # Primary README (English)
+├── README.zh.md                # Chinese README (optional)
+├── AGENTS.md                   # Project conventions for AI
+├── pyproject.toml              # Modern Python config (or language-specific)
+├── requirements.txt            # Dependencies
 ├── .gitignore
 └── LICENSE
 ```
 
 ## Supported Languages
 
-| Language | Config Files | Test Framework |
-|----------|--------------|----------------|
-| Python | requirements.txt, setup.py, pyproject.toml | pytest |
-| JavaScript/TypeScript | package.json, tsconfig.json | jest |
-| Java | pom.xml | junit |
-| Go | go.mod | go test |
+| Language | Config Files | Test Framework | Template Dir |
+|----------|--------------|----------------|--------------|
+| Python | pyproject.toml, requirements.txt | pytest | `templates/python/` |
+| JavaScript/TypeScript | package.json, tsconfig.json | jest | `templates/javascript/` |
+| Java | pom.xml | junit | `templates/java/` |
+| Go | go.mod | go test | `templates/go/` |
 
 ## Workflow
 
@@ -53,251 +55,123 @@ Before creating structure, confirm project details:
 ### Generate Structure
 
 1. Create directories based on project type
-2. Generate configuration files
-3. Create automation scripts
+2. Copy templates from `templates/<language>/`
+3. Create automation scripts from `templates/scripts/`
+4. Create common files from `templates/common/`
+
+### Template Files
+
+| Template | Purpose | Location |
+|----------|---------|----------|
+| pyproject.toml | Python project config | `templates/python/pyproject.toml` |
+| requirements.txt | Python dependencies | `templates/python/requirements.txt` |
+| README.md | Project documentation | `templates/common/README.md` |
+| README.zh.md | Chinese README | `templates/common/README.zh.md` |
+| AGENTS.md | AI conventions | `templates/common/AGENTS.md` |
+| setup.sh | Unix setup script | `templates/scripts/setup.sh` |
+| setup-venv.ps1 | Windows venv script | `templates/scripts/setup-venv.ps1` |
+| test.sh | Test script | `templates/scripts/test.sh` |
+| build.sh | Build script | `templates/scripts/build.sh` |
+| ci.yml | GitHub Actions | `templates/github-actions/ci.yml` |
+
+**Use templates directly** - don't inline code in SKILL.md.
 
 ### Fake File Marking
 
 For features not needed by the project type, create placeholder files with SKIP comments:
 
-**Example 1 - CI/CD script for MicroPython:**
 ```bash
 # scripts/ci.sh
 # SKIP: not needed for micropython project - deployment via direct flash
-#!/bin/bash
-echo "CI/CD not required"
-```
-
-**Example 2 - GitHub Actions for embedded:**
-```yaml
-# .github/workflows/ci.yml
-# SKIP: not needed for micropython project - no automated testing pipeline
 ```
 
 **Fake files should be committed to git** to maintain structure completeness.
-
-### Configure Scripts
-
-Set up setup.sh, test.sh, build.sh based on project type.
-
-### Add CI/CD
-
-Configure GitHub Actions if needed, otherwise create skipped placeholder.
-
-## Script Templates
-
-### setup.sh
-
-Purpose: Environment setup and dependency installation
-
-**For Python:**
-```bash
-#!/bin/bash
-# Create virtual environment
-python3.10 -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Initialize configuration
-echo "Setup complete!"
-```
-
-### test.sh
-
-Purpose: Run automated tests
-
-**For Python with pytest:**
-```bash
-#!/bin/bash
-# Activate virtual environment
-source venv/bin/activate
-
-# Run pytest with coverage
-pytest tests/ --cov=src --cov-report=html
-
-# Show coverage summary
-coverage report
-```
-
-### build.sh
-
-Purpose: Build and package the project
-
-**For Python:**
-```bash
-#!/bin/bash
-# Activate virtual environment
-source venv/bin/activate
-
-# Build package
-python setup.py sdist bdist_wheel
-
-echo "Build complete! Check dist/ for packages."
-```
-
-## Language-Specific Templates
-
-### Python
-
-**Directory structure:**
-```
-project/
-├── src/
-│   └── <package_name>/
-│       ├── __init__.py
-│       └── main.py
-├── tests/
-│   ├── __init__.py
-│   └── test_main.py
-├── requirements.txt
-├── setup.py
-├── pyproject.toml
-└── pytest.ini
-```
-
-**requirements.txt:**
-```
-pytest>=7.0.0
-pytest-cov>=4.0.0
-```
-
-**pyproject.toml:**
-```toml
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
-[project]
-name = "project-name"
-version = "0.1.0"
-requires-python = ">=3.10"
-```
-
-**pytest.ini:**
-```ini
-[pytest]
-testpaths = tests
-python_files = test_*.py
-python_functions = test_*
-```
-
-### JavaScript/TypeScript
-
-**Directory structure:**
-```
-project/
-├── src/
-│   ├── index.ts
-│   └── index.js
-├── tests/
-│   └── index.test.ts
-├── package.json
-└── tsconfig.json
-```
-
-**package.json:**
-```json
-{
-  "name": "project-name",
-  "version": "1.0.0",
-  "scripts": {
-    "test": "jest",
-    "build": "tsc"
-  }
-}
-```
-
-### Java
-
-**Directory structure:**
-```
-project/
-├── src/
-│   ├── main/
-│   │   └── java/
-│   └── test/
-│       └── java/
-└── pom.xml
-```
-
-### Go
-
-**Directory structure:**
-```
-project/
-├── cmd/
-│   └── <app-name>/
-│       └── main.go
-├── pkg/
-├── internal/
-├── tests/
-└── go.mod
-```
-
-## GitHub Actions CI/CD
-
-**ci.yml:**
-```yaml
-name: CI
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-      
-      - run: pip install -r requirements.txt
-      - run: pytest tests/ -v
-```
-
-**For projects that don't need CI/CD** (e.g., MicroPython embedded projects), create a placeholder with SKIP comment:
-
-```yaml
-# .github/workflows/ci.yml
-# SKIP: not needed for micropython project - deployment via direct flash
-```
 
 ## Commands
 
 ### Create New Project
 
-To create a new project structure:
-
 1. Ask for project name and language
 2. Generate directory structure
-3. Create language-specific config files
-4. Add script templates
-5. Set up CI/CD configuration
+3. Copy language-specific config templates
+4. Copy script templates
+5. Copy common templates (README, AGENTS, LICENSE)
+6. Set up CI/CD or create SKIP placeholder
 
 ### Check Existing Structure
-
-To validate a project structure:
 
 1. Scan current directory
 2. Check for required directories (src/, tests/, docs/, scripts/)
 3. Verify config files exist
 4. Report missing or recommended additions
 
+## Language-Specific Structures
+
+### Python (Layered Architecture)
+
+```
+src/
+├── models/        # Data models (@dataclass)
+├── services/      # Business logic
+├── repositories/  # Data access (I/O)
+├── ui/            # User interface
+└── utils/         # Utilities
+
+tests/
+├── models/
+├── services/
+├── repositories/
+└── conftest.py    # Shared fixtures
+```
+
+**Files:** See `templates/python/` directory.
+
+### JavaScript/TypeScript
+
+```
+src/
+├── index.ts
+└── index.js
+
+tests/
+└── index.test.ts
+```
+
+**Files:** See `templates/javascript/` directory.
+
+### Java
+
+```
+src/
+├── main/java/
+└── test/java/
+```
+
+**Files:** See `templates/java/` directory.
+
+### Go
+
+```
+cmd/<app-name>/main.go
+pkg/
+internal/
+tests/
+```
+
+**Files:** See `templates/go/` directory.
+
 ## Best Practices
 
-1. **Consistent naming** — Use lowercase with hyphens for directories
-2. **Plural forms** — Use `tests/`, `docs/`, `scripts/` (not singular)
-3. **Separation of concerns** — Keep source, tests, and docs separate
+1. **Consistent naming** — lowercase with hyphens for directories
+2. **Plural forms** — `tests/`, `docs/`, `scripts/` (not singular)
+3. **Separation of concerns** — Keep source, tests, docs separate
 4. **Automation first** — Always include setup/test/build scripts
-5. **CI/CD ready** — Include GitHub Actions by default, or mark with SKIP comment if not needed
-6. **Fake files committed** — Placeholder files with SKIP comments should be committed to git
+5. **CI/CD ready** — Include GitHub Actions or SKIP placeholder
+6. **Fake files committed** — SKIP placeholders in git
+7. **pyproject.toml preferred** — Modern Python config over setup.py
+8. **Bilingual README** — README.md + README.zh.md with language switch
+9. **AGENTS.md** — Project conventions for AI agents
+10. **Mirrored test structure** — tests/ mirrors src/
 
 ## When to Use This Skill
 

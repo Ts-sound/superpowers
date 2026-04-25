@@ -62,6 +62,35 @@ Design document updates required:
 Complete updates before proceeding.
 ```
 
+**If everything is consistent:** Continue to Step 1c.
+
+### Step 1c: UI Consistency Check (for GUI projects)
+
+**For projects with visual interfaces:**
+
+Before claiming "work complete":
+
+1. **Visual inspection of all UI elements**
+2. **Check alignment** (grid weights, col_offset, spacing)
+3. **Check displayed values vs expected**
+4. **Run full workflow** (start → stop → restart → config load/save)
+5. **Check runtime logs** for hidden errors
+
+**Checklist:**
+- [ ] All status indicators show correct values
+- [ ] Layout properly aligned (grid weight=1 where expected)
+- [ ] Command preview shows full path (not truncated)
+- [ ] Config loads/saves correctly
+- [ ] No hidden runtime errors in logs
+
+**If issues found:**
+```
+UI consistency issues found:
+- [List specific issues]
+
+Fix before proceeding.
+```
+
 **If everything is consistent:** Continue to Step 2.
 
 ### Step 2: Determine Base Branch

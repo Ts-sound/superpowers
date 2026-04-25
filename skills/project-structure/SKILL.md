@@ -50,7 +50,7 @@ Before creating structure, confirm project details:
 **Questions to ask:**
 1. **Project type**: python/micropython/nodejs/java/go/rust/embedded/...
 2. **Build method**: compiled/interpreted/mixed
-3. **CI/CD needs**: Does this project need CI/CD configuration?
+3. **CI/CD needs**: Use `project-ci-cd` skill to assess
 
 ### Generate Structure
 
@@ -166,7 +166,7 @@ tests/
 2. **Plural forms** — `tests/`, `docs/`, `scripts/` (not singular)
 3. **Separation of concerns** — Keep source, tests, docs separate
 4. **Automation first** — Always include setup/test/build scripts
-5. **CI/CD ready** — Include GitHub Actions or SKIP placeholder
+5. **CI/CD ready** — Use `project-ci-cd` skill to determine and configure
 6. **Fake files committed** — SKIP placeholders in git
 7. **pyproject.toml preferred** — Modern Python config over setup.py
 8. **Bilingual README** — README.md + README.zh.md with language switch

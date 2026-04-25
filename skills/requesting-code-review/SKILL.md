@@ -46,6 +46,12 @@ Use Task tool with superpowers:code-reviewer type, fill template at `code-review
 - Note Minor issues for later
 - Push back if reviewer is wrong (with reasoning)
 
+**4. CI/CD specific checks:**
+When reviewing workflow files, use `project-ci-cd` skill:
+- Permissions checklist
+- Secrets usage validation
+- Platform-specific configurations
+
 ## Example
 
 ```

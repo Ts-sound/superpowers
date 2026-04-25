@@ -85,6 +85,23 @@ Implementation: Follow design doc section 3.1
 - Reference existing patterns to follow
 ````
 
+**Platform-Specific Considerations (for cross-platform features):**
+
+````markdown
+### Platform Considerations
+
+**Windows:**
+- Requirement: [e.g., Hide console window]
+- Parameters: [e.g., STARTUPINFO + CREATE_NO_WINDOW]
+- Test: [e.g., Run exe with -w flag, check for console]
+
+**Linux:**
+- Requirement: [e.g., No special handling]
+- Test: [e.g., Run in terminal, no unexpected behavior]
+
+**Cross-platform code location:** [e.g., src/utils/cross_platform.py]
+````
+
 **Task Groups for Related Work:**
 
 ````markdown

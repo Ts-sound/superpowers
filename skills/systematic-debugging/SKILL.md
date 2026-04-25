@@ -57,6 +57,12 @@ You MUST complete each phase before proceeding to the next.
    - Read stack traces completely
    - Note line numbers, file paths, error codes
 
+   **CI/CD failures:**
+   Use `project-ci-cd` skill for troubleshooting:
+   - 403 errors → permissions checklist
+   - Secrets issues → validation flow
+   - Platform-specific diagnostics
+
 2. **Reproduce Consistently**
    - Can you trigger it reliably?
    - What are the exact steps?
@@ -105,19 +111,41 @@ You MUST complete each phase before proceeding to the next.
    codesign --sign "$IDENTITY" --verbose=4 "$APP"
    ```
 
-   **This reveals:** Which layer fails (secrets → workflow ✓, workflow → build ✗)
+**This reveals:** Which layer fails (secrets → workflow ✓, workflow → build ✗)
 
-5. **Trace Data Flow**
+  5. **Identify Blocking Source** (for hangs/deadlocks)
+
+    **WHEN process hangs, freezes, or times out:**
+
+    **BEFORE proposing fixes:**
+    1. Add logging at each potential blocking point
+    2. Run with logs enabled
+    3. Identify exact location where execution stops
+    4. Analyze WHY it blocks (not just WHAT)
+    5. Research platform-specific behavior (Windows vs Linux)
+
+    **Example workflow for subprocess hang:**
+    ```
+    Log: "[STOP] closing stdout" → hangs here
+    Research: "Python subprocess stdout.close() blocks"
+    Found: Reader threads hold reference
+    Solution: Kill process FIRST (threads auto-exit)
+    ```
+
+    **Critical:** Each fix attempt for same issue should be traced differently.
+    If 2nd attempt fails → STOP → deeper investigation needed.
+
+  6. **Trace Data Flow**
 
    **WHEN error is deep in call stack:**
 
-   See `root-cause-tracing.md` in this directory for the complete backward tracing technique.
+**Quick version:**
+    - Where does bad value originate?
+    - What called this with bad value?
+    - Keep tracing up until you find the source
+    - Fix at source, not at symptom
 
-   **Quick version:**
-   - Where does bad value originate?
-   - What called this with bad value?
-   - Keep tracing up until you find the source
-   - Fix at source, not at symptom
+    **See `root-cause-tracing.md` for complete technique.**
 
 ### Phase 2: Pattern Analysis
 
@@ -259,7 +287,7 @@ If you catch yourself thinking:
 
 | Phase | Key Activities | Success Criteria |
 |-------|---------------|------------------|
-| **1. Root Cause** | Read errors, reproduce, check changes, gather evidence | Understand WHAT and WHY |
+| **1. Root Cause** | Read errors, reproduce, check changes, gather evidence, identify blocking, trace data | Understand WHAT and WHY |
 | **2. Pattern** | Find working examples, compare | Identify differences |
 | **3. Hypothesis** | Form theory, test minimally | Confirmed or new hypothesis |
 | **4. Implementation** | Create test, fix, verify | Bug resolved, tests pass |

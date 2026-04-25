@@ -27,6 +27,9 @@ You MUST create a task for each of these items and complete them in order:
 2. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
    - **SKIP if:** Requirements doc already has detailed tables/formulas/rules → go directly to Step 3
 3. **Propose 2-3 approaches** — with trade-offs and your recommendation
+    - **For cross-platform features:** Check official docs for ALL platforms, search for complete solutions, test minimal examples before proposing
+    - **Minimal approach first:** What's the simplest working solution? Add complexity only if minimal fails
+    - **For CI/CD features:** Use `project-ci-cd` skill to assess needs and check permissions
 4. **Present design** — in sections scaled to their complexity, get user approval after each section
    - **Include:** Terminology table, format specifications, validation rules
 5. **Confirm terminology and formats** — verify consistency before proceeding
@@ -69,6 +72,20 @@ graph TD
 - Propose 2-3 different approaches with trade-offs
 - Present options conversationally with your recommendation and reasoning
 - Lead with your recommended option and explain why
+- **For cross-platform features:**
+  - Check official docs for ALL target platforms
+  - Search for "complete solution" examples (not partial)
+  - Test minimal working example BEFORE proposing
+  - Confirm all required parameters are known
+- **Minimal approach first:**
+  - What's the SIMPLEST working solution?
+  - Test it: Does minimal command/code work?
+  - Add complexity ONLY if minimal fails
+  - Document why additional complexity is needed
+- **For CI/CD features:**
+  - Use `project-ci-cd` skill for assessment
+  - Check permissions requirements
+  - Consider platform-specific configurations
 
 **Presenting the design:**
 - Once you believe you understand what you're building, present the design

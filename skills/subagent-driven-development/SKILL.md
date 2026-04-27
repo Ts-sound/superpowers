@@ -38,57 +38,42 @@ graph TD
 
 ```mermaid
 graph TD
-    Start["Read plan, extract all tasks with full text, note context, inject terminology, create TodoWrite"];
-    MoreTasks{{"More tasks remain?"}};
-    FinalReview["Dispatch final code reviewer subagent for entire implementation"];
+    Start["Read plan with execution strategy"];
+    CheckStrategy{{"Plan has merge/parallel strategy?"}};
+    ApplyMerge["Apply merge: combine tasks per group"];
+    ApplyParallel["Apply parallel: dispatch independent groups"];
+    Sequential["Sequential execution per merged group"];
+    MoreTasks{{"More task groups remain?"}};
+    FinalReview["Dispatch final code reviewer"];
     Superpower["Use superpowers:finishing-a-development-branch"]:::greenNode;
 
-    subgraph PerTask ["Per Task"]
-        direction TB
-        DispatchImpl["Dispatch implementer subagent (./implementer-prompt.md)"];
-        ImplAsk{{"Implementer subagent asks questions?"}};
-        AnswerQ["Answer questions, provide context"];
-        ImplDo["Implementer subagent implements, tests, commits, self-reviews"];
-        DispatchSpec["Dispatch spec reviewer subagent (./spec-reviewer-prompt.md)"];
-        SpecCheck{{"Spec reviewer subagent confirms code matches spec?"}};
-        FixSpec["Implementer subagent fixes spec gaps"];
-        DispatchCode["Dispatch code quality reviewer subagent (./code-quality-reviewer-prompt.md)"];
-        CodeCheck{{"Code quality reviewer subagent approves?"}};
-        FixQuality["Implementer subagent fixes quality issues"];
-        MarkComplete["Mark task complete in TodoWrite"];
-    end
-
-    Start --> DispatchImpl;
-    DispatchImpl --> ImplAsk;
-    ImplAsk -->|no| ImplDo;
-    ImplAsk -->|yes| AnswerQ;
-    AnswerQ --> DispatchImpl;
-    ImplDo --> DispatchSpec;
-    DispatchSpec --> SpecCheck;
-    SpecCheck -->|yes| DispatchCode;
-    SpecCheck -->|no| FixSpec;
-    FixSpec -->|re-review| DispatchSpec;
-    DispatchCode --> CodeCheck;
-    CodeCheck -->|yes| MarkComplete;
-    CodeCheck -->|no| FixQuality;
-    FixQuality -->|re-review| DispatchCode;
-    MarkComplete --> MoreTasks;
-    MoreTasks -->|yes| DispatchImpl;
+    Start --> CheckStrategy;
+    CheckStrategy -->|yes, merge| ApplyMerge;
+    CheckStrategy -->|yes, parallel| ApplyParallel;
+    CheckStrategy -->|no| Sequential;
+    ApplyMerge --> Sequential;
+    ApplyParallel --> MoreTasks;
+    Sequential --> MoreTasks;
+    MoreTasks -->|yes| Sequential;
     MoreTasks -->|no| FinalReview;
     FinalReview --> Superpower;
 
-    classDef endnode fill:#f9f; 
-    classDef decision fill:#ddf;  
-    classDef process fill:#e6f2ff;   
-    classDef warningNode fill:red;
+    classDef endnode fill:#f9f;
+    classDef decision fill:#ddf;
+    classDef process fill:#e6f2ff;
     classDef greenNode fill:lightgreen;
 
-    class ImplAsk,SpecCheck,CodeCheck,MoreTasks decision;
-    class Start,DispatchImpl,AnswerQ,ImplDo,DispatchSpec,FixSpec,DispatchCode,FixQuality,MarkComplete,FinalReview process;
+    class CheckStrategy,MoreTasks decision;
+    class Start,ApplyMerge,ApplyParallel,Sequential,FinalReview process;
     class Superpower endnode;
 ```
 
-**Before dispatching first implementer:**
+**Execution strategy from plan:**
+- Plan defines merge groups → Execute as single subagent per group
+- Plan defines parallel groups → Use `dispatching-parallel-agents`
+- Plan has no strategy → Execute sequentially per task
+
+## Before dispatching first implementer:
 Inject terminology and format conventions from design doc:
 - Enum values and UI labels
 - Number formats (decimal/percentage)
@@ -247,6 +232,9 @@ Done!
 - **superpowers:writing-plans** - Creates the plan this skill executes
 - **superpowers:requesting-code-review** - Code review template for reviewer subagents
 - **superpowers:finishing-a-development-branch** - Complete development after all tasks
+
+**Parallel execution (when tasks are independent):**
+- **superpowers:dispatching-parallel-agents** - Run independent task groups concurrently
 
 **Subagents should use:**
 - **superpowers:test-driven-development** - Subagents follow TDD for each task

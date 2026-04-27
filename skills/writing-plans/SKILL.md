@@ -110,12 +110,42 @@ Implementation: Follow design doc section 3.1
 **Tasks:** 1-4
 **Goal:** Complete layer X with all dependencies
 **Acceptance:** Layer tests pass, backward compatible
+**Merge Recommendation:** Combine into single subagent (same file(s))
+**Parallel Safe:** No (modifies shared file)
 
 **Task 1:** ...
 **Task 2:** ...
 **Task 3:** ...
 **Task 4:** ...
 ````
+
+## Task Dependency Analysis (REQUIRED)
+
+**Before listing tasks, analyze dependencies:**
+
+| Pattern | Merge? | Parallel? | Reason |
+|---------|--------|-----------|--------|
+| Same file, sequential | ✅ Yes | ❌ No | Avoid context switch overhead |
+| Same module, different files | ✅ Yes | ❌ No | Related changes, single commit |
+| Different modules, no shared state | ❌ No | ✅ Yes | Independent, can run concurrently |
+| Different modules, shared interface | ❌ No | ❌ No | Interface must stabilize first |
+
+**Add to plan:**
+
+```markdown
+## Execution Strategy
+
+**Merge Groups:**
+- Task 1-3 → Single subagent (same file: `src/parser.py`)
+- Task 4-6 → Single subagent (same file: `src/engine.py`)
+
+**Parallel Groups:**
+- Group 1 (Tasks 1-3) + Group 2 (Tasks 4-6) → Can run concurrently
+
+**Sequential Dependencies:**
+- Task 7 depends on Tasks 1-3 (uses parser)
+- Task 9 depends on Task 7 (integration)
+```
 
 ## Remember
 - Exact file paths always
@@ -128,13 +158,29 @@ Implementation: Follow design doc section 3.1
 
 ## Execution Handoff
 
-After saving the plan, offer execution choice:
+After saving the plan, offer execution choice based on task dependencies:
 
-**"Plan complete and saved to `docs/plans/<filename>.md`. Two execution options:**
+**If tasks have merge/parallel opportunities:**
 
-**1. Subagent-Driven (this session)** - I dispatch fresh subagent per task, review between tasks, fast iteration
+**"Plan complete and saved to `docs/plans/<filename>.md`. Execution analysis:**
 
-**2. Parallel Session (separate)** - Open new session with executing-plans, batch execution with checkpoints
+**Merge opportunities:** Tasks 1-3 (same file), Tasks 4-6 (same file)
+**Parallel opportunities:** Group 1 + Group 2 (independent)
+
+**Execution options:**
+
+**1. Subagent-Driven (this session)** - Sequential per merged group, spec + quality review
+**2. Parallel Agents (this session)** - Independent groups run concurrently via dispatching-parallel-agents
+**3. Parallel Session (separate)** - Open new session with executing-plans, batch execution
+
+**Which approach?"**
+
+**If tasks are all tightly coupled:**
+
+**"Plan complete. All tasks tightly coupled. Two options:**
+
+**1. Subagent-Driven (this session)** - Sequential execution with reviews
+**2. Parallel Session (separate)** - New session with executing-plans
 
 **Which approach?"**
 

@@ -9,34 +9,18 @@ description: "How to manage project documentation structure. Make sure to use th
 
 Manage project documentation structure with focus on design documents. This skill creates and maintains the `docs/design/` directory, integrates with mermaid-diagram for visualizations, and coordinates with writing-plans.
 
-## Directory Structure
+## Rules (Load on Demand)
 
-```
-docs/
-├── design/                     # Design documents
-│   ├── README.md               # Overall system design
-│   └── <module>/README.md      # Module designs
-├── plans/                      # Implementation plans (writing-plans)
-│   └── YYYY-MM-DD-<topic>.md
-├── requirements.md             # Requirements
-└── terminology.md              # Terminology definitions
+Rules are modular. Load only the ones needed for the current task from `rules/`:
 
-Root-level docs:
-├── README.md                   # Primary (English)
-├── README.zh.md                # Chinese (optional)
-└── AGENTS.md                   # AI conventions
-```
-
-## Template Files
-
-| Template | Purpose | Location |
-|----------|---------|----------|
-| design-overview.md | System design | `templates/design-overview.md` |
-| module-design.md | Module design | `templates/module-design.md` |
-| README.md | Project README | See project-structure/templates/ |
-| AGENTS.md | AI conventions | See project-structure/templates/ |
-
-**Use templates directly** - don't inline code in SKILL.md.
+| Rule File | When to Load |
+|-----------|--------------|
+| `rules/editing.md` | Document editing, proofreading, polishing |
+| `rules/directory-structure.md` | Setting up or reorganizing `docs/` |
+| `rules/design-doc-template.md` | Creating design or module documents |
+| `rules/mermaid-diagram.md` | Adding diagrams to documents |
+| `rules/sync-rules.md` | After code changes, checking doc accuracy |
+| `rules/best-practices.md` | General guidance, code review of docs |
 
 ## Workflow
 
@@ -71,54 +55,8 @@ brainstorming → project-docs (docs/design/) → writing-plans (docs/plans/) �
 
 ### With mermaid-diagram
 
-**Use mermaid for:**
-
-| Design Section | Diagram Type |
-|----------------|--------------|
-| Architecture overview | `flowchart TD` |
-| Module structure | `flowchart LR` |
-| Class structure | `classDiagram` |
-| Sequence/Interaction | `sequenceDiagram` |
-| State Machine | `stateDiagram-v2` |
-
-**Generate directly** - no external skill invocation needed.
-
-## Commands
-
-### Create Overall Design
-
-1. Copy `templates/design-overview.md`
-2. Customize for project
-3. Add mermaid diagrams (architecture, data model)
-
-### Create Module Design
-
-1. Copy `templates/module-design.md`
-2. Customize for module
-3. Add appropriate diagrams (component, sequence, state)
-
-### Check Doc Sync
-
-1. Identify changed modules
-2. Check corresponding design docs
-3. Report needed updates
-
-## Best Practices
-
-1. **Design separate from plans** — `docs/design/` vs `docs/plans/`
-2. **Use mermaid for visuals** — Diagram worth 1000 words
-3. **Module short names** — `auth/` not `authentication/`
-4. **Update on changes** — Reflect current state
-5. **Link related docs** — Cross-reference modules
-6. **Bilingual README** — Primary + localized with switch links
-7. **AGENTS.md for AI** — Conventions for AI agents
-
-## Anti-Patterns
-
-- Implementation details in design docs (that's for plans)
-- Design docs without diagrams when visuals help
-- Letting design docs drift from implementation
-- Long names for module directories
+Mermaid diagrams are generated directly — no external skill invocation needed.
+See `rules/mermaid-diagram.md` for diagram type selection.
 
 ## When to Use This Skill
 

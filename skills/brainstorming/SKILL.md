@@ -33,8 +33,9 @@ You MUST create a task for each of these items and complete them in order:
 4. **Present design** — in sections scaled to their complexity, get user approval after each section
    - **Include:** Terminology table, format specifications, validation rules
 5. **Confirm terminology and formats** — verify consistency before proceeding
-6. **Write design doc** — save to `docs/design/README.md` with project type info and mermaid diagrams
-7. **Transition to implementation** — invoke writing-plans skill to create implementation plan
+6. **Technology migration validation** — if replacing a core technology, trace ALL usage points
+7. **Write design doc** — save to `docs/design/README.md` with project type info and mermaid diagrams
+8. **Transition to implementation** — invoke writing-plans skill to create implementation plan
 
 ## Process Flow
 
@@ -45,16 +46,20 @@ graph TD
     C --> D["Present design sections"];
     D --> E{"User approves design?"};
     E -->|no, revise| D;
-    E -->|yes| F["Write design doc"];
-    F --> G["Invoke writing-plans skill"];
+    E -->|yes| F["Confirm terminology and formats"];
+    F --> G{"Replacing core technology?"};
+    G -->|yes| H["Trace migration points"];
+    G -->|no| I["Write design doc"];
+    H --> I;
+    I --> J["Invoke writing-plans skill"];
 
     classDef endnode fill:#f9f;
     classDef decision fill:#ddf;
     classDef process fill:#e6f2ff;
 
-    class G endnode;
-    class E decision;
-    class A,B,C,D,F process;
+    class J endnode;
+    class E,G decision;
+    class A,B,C,D,F,H,I process;
 ```
 
 **The terminal state is invoking writing-plans.** Do NOT invoke frontend-design, mcp-builder, or any other implementation skill. The ONLY skill you invoke after brainstorming is writing-plans.
@@ -101,7 +106,32 @@ After design approval, verify:
 - Validation ranges match data formats (0-1 vs 0-100)
 - Naming conventions (snake_case for config, etc.)
 
-Ask: "Let me confirm terminology and formats before we proceed..."
+**Technology migration validation (Step 6):**
+This step is triggered when the design replaces a core technology — i.e., any runtime, database, framework, or language that appears in 3+ files or has a public API. Library upgrades or minor dependency swaps do NOT trigger this step.
+
+When triggered, you MUST:
+1. Search for ALL files that reference the old technology (use grep)
+2. List every file that needs to be updated in the design doc
+3. Add a "Migration Checklist" section to the design doc
+4. Verify each file will be handled in the implementation plan
+
+Example:
+```markdown
+## Migration: Lua → Python
+
+### Files to Update
+- src/executor/lua_bridge.lua → src/executor/python_runner.py
+- src/script/validator.py (lua_script → python_script)
+- docs/design/executor/README.md (API examples)
+
+### Migration Checklist
+- [ ] Update all references in code
+- [ ] Update all references in docs
+- [ ] Update all references in examples
+- [ ] Verify with grep: no "lua_" remaining
+```
+
+State: "This involves a technology migration. I am verifying all files that need updating."
 
 ## After the Design
 

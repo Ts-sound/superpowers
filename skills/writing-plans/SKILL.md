@@ -24,9 +24,29 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 - Include acceptance criteria and file list
 - Subagent implements from design doc, not plan
 
-**Good task:**
+**For bug fixes - finer granularity (REQUIRED):**
+- Each distinct bug = ONE独立任务
+- Task description MUST include "验证方式"
+- Task title format: `[Bug] <short description>`
+
+**Good bug fix task:**
 ```
-Task 1: Add Role enum for new identity types
+### Task 3: [Bug] Fix color mode initial state not being set
+
+**Files:**
+- Modify: `src/icon_monitor.py`
+
+**Acceptance Criteria:**
+- [ ] color 模式首次检测时正确设置 is_initialized = True
+- [ ] 后续调用不重新定位，直接提取颜色
+- [ ] 验证方式: 手动测试，查看日志确认首次 vs 后续行为
+
+**Reference:** Issue #123, design doc section 4.2
+```
+
+**Good feature task:**
+```
+### Task 1: Add Role enum for new identity types
 
 Files: src/models/role.py, tests/models/test_role.py
 
@@ -78,11 +98,33 @@ Implementation: Follow design doc section 3.1
 - [ ] Tests pass (TDD approach)
 - [ ] Follows architecture constraints
 
+**Verification:** [How to verify this works - manual test steps, expected output, etc.]
+
 **Reference:** Design doc section X.Y
 
 **Implementation Notes:**
 - Key constraint or gotcha (1-2 lines max)
 - Reference existing patterns to follow
+````
+
+**For bug fix tasks:**
+````markdown
+### Task N: [Bug] <short description>
+
+**Files:**
+- Modify: `exact/path/to/file.py`
+
+**Root Cause:** [What caused this bug - from systematic-debugging analysis]
+
+> **Prerequisite:** Complete systematic-debugging Phase 1 (root cause analysis)
+
+**Acceptance Criteria:**
+- [ ] Bug is fixed (describe expected behavior after fix)
+- [ ] No regressions in related functionality
+
+**Verification:** [How to verify the bug is fixed - manual test steps, expected output]
+
+**Reference:** Issue #123, related commit
 ````
 
 **Platform-Specific Considerations (for cross-platform features):**

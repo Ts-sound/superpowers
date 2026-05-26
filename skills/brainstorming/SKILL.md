@@ -34,8 +34,9 @@ You MUST create a task for each of these items and complete them in order:
    - **Include:** Terminology table, format specifications, validation rules
 5. **Confirm terminology and formats** — verify consistency before proceeding
 6. **Technology migration validation** — if replacing a core technology, trace ALL usage points
-7. **Write design doc** — save to `docs/design/README.md` with project type info and mermaid diagrams
-8. **Transition to implementation** — invoke writing-plans skill to create implementation plan
+7. **Implementation feasibility check (NEW)** — demonstrate critical logic with pseudo-code before finalizing design
+8. **Write design doc** — save to `docs/design/README.md` with project type info and mermaid diagrams
+9. **Transition to implementation** — invoke writing-plans skill to create implementation plan
 
 ## Process Flow
 
@@ -49,17 +50,18 @@ graph TD
     E -->|yes| F["Confirm terminology and formats"];
     F --> G{"Replacing core technology?"};
     G -->|yes| H["Trace migration points"];
-    G -->|no| I["Write design doc"];
+    G -->|no| I["Implementation feasibility check"];
     H --> I;
-    I --> J["Invoke writing-plans skill"];
+    I --> J["Write design doc"];
+    J --> K["Invoke writing-plans skill"];
 
     classDef endnode fill:#f9f;
     classDef decision fill:#ddf;
     classDef process fill:#e6f2ff;
 
-    class J endnode;
+    class K endnode;
     class E,G decision;
-    class A,B,C,D,F,H,I process;
+    class A,B,C,D,F,H,I,J process;
 ```
 
 **The terminal state is invoking writing-plans.** Do NOT invoke frontend-design, mcp-builder, or any other implementation skill. The ONLY skill you invoke after brainstorming is writing-plans.
@@ -132,6 +134,28 @@ Example:
 ```
 
 State: "This involves a technology migration. I am verifying all files that need updating."
+
+### Step 7: Implementation Feasibility Check (NEW)
+
+**After design approval, before writing design doc:**
+
+For critical logic paths (state machines, first-time vs recurring, complex data flow):
+1. Write pseudo-code demonstrating the key logic
+2. Identify edge cases in the flow
+3. Verify with user: "Does this logic match your expectation?"
+
+**Example pseudo-code:**
+```
+# color mode: fixed position after first detection
+if is_first_detection:
+    save_position(target_region)
+    extract_color_from_position()
+else:
+    # Use saved position, don't re-locate
+    extract_color_from_saved_position()
+```
+
+This catches design gaps early (like "first vs subsequent" logic we missed).
 
 ## After the Design
 

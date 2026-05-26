@@ -21,6 +21,12 @@ NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST
 
 If you haven't completed Phase 1, you cannot propose fixes.
 
+**Enforcement:**
+- Create a task for each Phase 1 step and mark complete BEFORE any code change
+- Phase 1 completion = written evidence of root cause (not just "I think")
+- **If asked to fix before completing Phase 1:** State "I need to complete root cause analysis first - this prevents wasted rework"
+- Document findings in a temporary `debug-notes.md` or issue comment
+
 ## When to Use
 
 Use for ANY technical issue:
@@ -50,6 +56,12 @@ You MUST complete each phase before proceeding to the next.
 ### Phase 1: Root Cause Investigation
 
 **BEFORE attempting ANY fix:**
+
+0. **Record Root Cause in Writing (REQUIRED)**
+   - Create `debug-notes.md` or use issue comment
+   - Document: What symptom, What changed, Why it breaks
+   - **Only after written record can code changes begin**
+   - This prevents "I'll investigate after the fix" rationalization
 
 1. **Read Error Messages Carefully**
    - Don't skip past errors or warnings

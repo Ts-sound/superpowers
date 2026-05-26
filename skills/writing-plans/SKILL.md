@@ -78,8 +78,14 @@ Implementation: Follow design doc section 3.1
 
 **Tech Stack:** [Key technologies/libraries]
 
+**Testing Scenarios:** [List at least 3 test scenarios this feature must handle - from brainstorming boundary case check]
+
+**Boundary Conditions:** [List edge cases, invalid inputs, error conditions to handle]
+
 ---
 ```
+
+**Why (NEW - 2026-05):** Recent analysis showed 70%+ fix commits due to incomplete initial implementation. Adding Testing Scenarios and Boundary Conditions reduces iteration cycles. Pairs with brainstorming skill's Boundary Case Check step.
 
 ## Task Structure
 

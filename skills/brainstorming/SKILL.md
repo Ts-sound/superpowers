@@ -52,16 +52,17 @@ graph TD
     G -->|yes| H["Trace migration points"];
     G -->|no| I["Implementation feasibility check"];
     H --> I;
-    I --> J["Write design doc"];
-    J --> K["Invoke writing-plans skill"];
+    I --> J["Boundary case check"];
+    J --> K["Write design doc"];
+    K --> L["Invoke writing-plans skill"];
 
     classDef endnode fill:#f9f;
     classDef decision fill:#ddf;
     classDef process fill:#e6f2ff;
 
-    class K endnode;
+    class L endnode;
     class E,G decision;
-    class A,B,C,D,F,H,I,J process;
+    class A,B,C,D,F,H,I,J,K process;
 ```
 
 **The terminal state is invoking writing-plans.** Do NOT invoke frontend-design, mcp-builder, or any other implementation skill. The ONLY skill you invoke after brainstorming is writing-plans.
@@ -156,6 +157,38 @@ else:
 ```
 
 This catches design gaps early (like "first vs subsequent" logic we missed).
+
+### Step 8: Boundary Case Check (NEW - 2026-05)
+
+**Trigger:** Only for significant changes (new features, API modifications, data model changes). Skip for trivial changes (typos, config tweaks, single-line fixes).
+
+**After implementation feasibility check, before writing design doc:**
+
+For any new feature or significant change:
+1. List at least **5 usage scenarios** the feature must handle
+2. Define key parameters: default values, valid ranges, edge boundaries
+3. Identify error conditions and how they should be handled
+4. Present to user: "Are there other edge cases we should consider?"
+
+**Checklist template:**
+```
+## Boundary Cases
+
+### Usage Scenarios (min 5)
+1. [Scenario 1]
+2. [Scenario 2]
+3. [Scenario 3]
+4. [Scenario 4]
+5. [Scenario 5]
+
+### Key Parameters
+- param_name: default=X, range=[min,max], edge_cases=[...]
+
+### Error Handling
+- error_condition → expected_behavior
+```
+
+**Why:** Recent analysis shows 70%+ fix commits were due to incomplete initial implementation. Adding boundary checks reduces iteration cycles. Pairs with writing-plans skill's Testing Scenarios and Boundary Conditions fields.
 
 ## After the Design
 

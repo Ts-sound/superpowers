@@ -91,7 +91,37 @@ UI consistency issues found:
 Fix before proceeding.
 ```
 
-**If everything is consistent:** Continue to Step 2.
+**If everything is consistent:** Continue to Step 1d.
+
+### Step 1d: Debug Code Cleanup Check (NEW - 2026-05)
+
+**For all projects - adapt command to language:**
+
+```bash
+# Python: Check for debug print statements
+grep -rn "print.*debug\|logger.debug\|logger.info\|console.log\|console.debug" . --include="*.py" --include="*.js" --include="*.ts" 2>/dev/null | head -10
+
+# Go: Check for debug print
+grep -rn "fmt.Print\|log.Print\|klog" . --include="*.go" 2>/dev/null | head -10
+```
+
+**Alternatively, search for common debug patterns:**
+```bash
+# Generic: find TODO/FIXME/debug left behind
+grep -rn "TODO.*debug\|FIXME.*debug\|console.log.*debug" . 2>/dev/null | head -10
+```
+
+**Check commit message patterns:**
+- If recent commits contain "debug:" followed by "fix:" → flag for review
+
+**Checklist:**
+- [ ] No debug print statements in final code
+- [ ] No temporary logging added during development
+- [ ] Commit history doesn't show debug/fix pairs
+
+**Why:** Recent analysis showed multiple debug→fix commit pairs. Pairs with brainstorming skill's Boundary Case Check which aims to prevent these issues earlier in the design phase.
+
+**If everything is clean:** Continue to Step 2.
 
 ### Step 2: Determine Base Branch
 
